@@ -1,0 +1,34 @@
+name: networking
+namespace: networking
+description: networking services like ingress, cert-manager.
+
+
+project:
+  name: networking
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: kube-system
+      server: https://kubernetes.default.svc
+    - namespace: nidhogg
+      server: https://kubernetes.default.svc
+
+apps:
+  - name: traefik
+    source:
+      repoURL: "https://open-olympus-project.github.io/repo-helm/"
+      targetRevision: v0.2.2
+      chart: "traefik"
+      valuesFile: "traefik.yaml"
+  - name: cert-manager
+    source:
+      repoURL: "https://open-olympus-project.github.io/repo-helm/"
+      targetRevision: 0.1.1
+      chart: "cert-manager"
+      valuesFile: "cert-manager.yaml"
+  - name: cert-manager-issuer
+    source:
+      repoURL: "https://open-olympus-project.github.io/repo-helm/"
+      targetRevision: 0.1.1
+      chart: "cert-manager-issuer"
+      valuesFile: "cert-manager-issuer.yaml"

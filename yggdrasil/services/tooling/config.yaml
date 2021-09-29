@@ -1,0 +1,38 @@
+name: tooling
+namespace: tooling
+description: Tooling services Argo WF, Harbor.
+
+project:
+  name: tooling
+  sourceRepos:
+    - '*'
+  destinations:
+  - namespace: argo-events
+    server: https://kubernetes.default.svc
+
+
+apps:
+  - name: argo-workflows
+    source:
+      repoURL: "https://open-olympus-project.github.io/repo-helm/"
+      targetRevision: 0.1.16
+      chart: "argo-wf"
+      valuesFile: "argowf.yaml"
+  - name: argo-events
+    source:
+      repoURL: "https://open-olympus-project.github.io/repo-helm/"
+      targetRevision: 0.1.1
+      chart: "argo-events"
+      valuesFile: "argo-events.yaml"
+  - name: external-secrets
+    source:
+      repoURL: "https://open-olympus-project.github.io/repo-helm/"
+      targetRevision: 0.1.0
+      chart: "external-secrets"
+      valuesFile: "external-secrets.yaml"
+  - name: minio-operator
+    source:
+      repoURL: "https://open-olympus-project.github.io/repo-helm/"
+      targetRevision: 0.1.0
+      chart: "minio-operator"
+      valuesFile: "minio-operator.yaml"
