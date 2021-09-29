@@ -1,0 +1,25 @@
+scName: poc
+
+ingress:
+  hosts:
+    main:
+      host: poc-dev.westeurope.cloudapp.azure.com
+      loadBalancerIP: 51.124.85.220
+  LoadBalancerResoureGroup: env-aks-poc-dev
+  certmanagerissuer:  letsencrypt-staging
+  # className: ingress-traefik
+
+applications:
+  argo-workflows: true
+  argo-events: true
+  argo-events-setup: true
+  argo-events-azure: false
+  cert-manager: true
+  cert-manager-issuer: true
+  external-secrets: true
+  traefik: true
+  jaeger-operator: true
+  loki: true
+  minio-operator: true
+  prometheus: true
+  thanos: true
