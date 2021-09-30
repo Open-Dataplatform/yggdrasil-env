@@ -1,5 +1,6 @@
 name: tooling
 namespace: tooling
+destinationServer: https://env-poc-test-931ac487.hcp.westeurope.azmk8s.io:443
 description: Tooling services Argo WF, Harbor.
 
 project:
@@ -8,7 +9,7 @@ project:
     - '*'
   destinations:
   - namespace: argo-events
-    server: https://kubernetes.default.svc
+    server: https://env-poc-test-931ac487.hcp.westeurope.azmk8s.io:443
 
 
 apps:
