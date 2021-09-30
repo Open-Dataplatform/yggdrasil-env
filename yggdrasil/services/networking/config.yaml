@@ -1,5 +1,6 @@
 name: networking
 namespace: networking
+destinationServer: https://env-poc-test-931ac487.hcp.westeurope.azmk8s.io:443
 description: networking services like ingress, cert-manager.
 
 
@@ -9,9 +10,9 @@ project:
     - '*'
   destinations:
     - namespace: kube-system
-      server: https://kubernetes.default.svc
+      server: https://env-poc-test-931ac487.hcp.westeurope.azmk8s.io:443
     - namespace: nidhogg
-      server: https://kubernetes.default.svc
+      server: https://env-poc-test-931ac487.hcp.westeurope.azmk8s.io:443
 
 apps:
   - name: traefik
