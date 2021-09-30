@@ -1,6 +1,7 @@
 name: argo-events-setup
 clusterService: false
 namespace: argo-events
+destinationServer: https://env-poc-test-931ac487.hcp.westeurope.azmk8s.io:443
 description: Argo events setup
 
 project:
