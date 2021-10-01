@@ -1,5 +1,5 @@
 scName: poc
-environment: dev
+nameSuffix: dev
 
 ingress:
   hosts:

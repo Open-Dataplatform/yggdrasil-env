@@ -11,7 +11,6 @@ project:
   - namespace: argo-events
     server: https://env-poc-test-931ac487.hcp.westeurope.azmk8s.io:443
 
-
 apps:
   - name: argo-workflows
     source:
