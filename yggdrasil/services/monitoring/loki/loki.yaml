@@ -19,7 +19,7 @@ lethe:
     - name: sa-secret-store
       providers:
         vault:
-          server: "http://vault.tooling.svc:8200"
+          server: "https://service-vault-ps.westeurope.cloudapp.azure.com"
           path: "k8s"
           version: "v2"
           auth:
