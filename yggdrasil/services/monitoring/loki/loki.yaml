@@ -19,7 +19,7 @@ lethe:
     - name: sa-secret-store
       providers:
         vault:
-          server: "https://service-vault-ps.westeurope.cloudapp.azure.com"
+          server: "{{ .Values.vaultServer }}"
           path: "k8s"
           version: "v2"
           auth:
@@ -28,7 +28,7 @@ lethe:
             # https://www.vaultproject.io/docs/auth/kubernetes
             kubernetes:
               # Path where the Kubernetes authentication backend is mounted in Vault
-              mountPath: "kubernetes-test"
+              mountPath: "{{ template "helper.name" (dict "context" . "name" "kubernetes") }}"
               # A required field containing the Vault Role to assume.
               role: "k8s-secrets"
 
