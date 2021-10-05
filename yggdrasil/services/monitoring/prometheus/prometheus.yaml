@@ -1,7 +1,5 @@
-standalonePushgateway:
-  enabled: true
-
 prometheus-pushgateway:
+  enabled: false
 
   image:
     repository: weaveworks/prom-aggregation-gateway
