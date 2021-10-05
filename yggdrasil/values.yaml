@@ -2,8 +2,7 @@ scName: poc
 nameSuffix: dev
 
 vaultServer: <vault-server>
-# authServer: <auth-server>
-# serviceServer: <service-server>
+serviceServer: <service-server>
 
 ingress:
   hosts:
