@@ -1,7 +1,7 @@
 appHost: westeurope.cloudapp.azure.com
 authHost: {{ .Values.ingress.hosts.auth.host }}
 
-saName: traefik-test
+saName: traefik-{{ .Values.nameSuffix }}
 
 janus:
   enabled: true
@@ -18,7 +18,7 @@ janus:
       - kind: Rule
         match: {}
         services:
-          - name: traefik-forward-auth-test-service
+          - name: traefik-forward-auth-{{ .Values.nameSuffix }}-service
             port: 4181
         middlewares:
           - name: auth

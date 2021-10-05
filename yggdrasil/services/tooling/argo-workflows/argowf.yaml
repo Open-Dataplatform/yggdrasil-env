@@ -24,7 +24,7 @@ janus:
         - kind: Rule
           match: PathPrefix(`/argowf`)
           services:
-            - name: argo-workflows-server
+            - name: argo-workflows-{{ .Values.nameSuffix }}-server
               port: 2746
           middlewares:
             - name: argo-stripprefix

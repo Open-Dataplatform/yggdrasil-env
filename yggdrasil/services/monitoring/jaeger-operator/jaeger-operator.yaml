@@ -49,7 +49,7 @@ janus:
         - kind: Rule
           match: PathPrefix(`/jaeger`)
           services:
-            - name: jaeger-operator-test-jaeger-query
+            - name: jaeger-operator-{{ .Values.nameSuffix }}-jaeger-query
               port: 16686
           middlewares:
             - name: auth
