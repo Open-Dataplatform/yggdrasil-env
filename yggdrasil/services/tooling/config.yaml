@@ -24,6 +24,12 @@ apps:
       targetRevision: 0.1.x
       chart: "argo-events"
       valuesFile: "argo-events.yaml"
+  - name: vault
+    source:
+      repoURL: "https://open-olympus-project.github.io/repo-helm/"
+      targetRevision: 0.1.x
+      chart: "vault"
+      valuesFile: "vault.yaml"
   - name: external-secrets
     source:
       repoURL: "https://open-olympus-project.github.io/repo-helm/"

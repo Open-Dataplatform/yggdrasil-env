@@ -1,0 +1,13 @@
+initvault:
+  enabled: false
+
+vault:
+  global:
+    enabled: false
+
+  injector:
+    enabled: true
+    externalVaultAddr: https://{{ .Values.vaultServer }}
+
+janus:
+  enabled: false
