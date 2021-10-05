@@ -56,3 +56,14 @@ janus:
             #   namespace: networking
       certificate:
         enabled: true
+  middlewares:
+    - name: auth
+      spec:
+        forwardAuth:
+          address: 'https://{{ .Values.authServer }}'
+          trustForwardHeader: true
+          authResponseHeaders:
+            - X-Forwarded-User
+          # TODO remove
+          tls:
+            insecureSkipVerify: true
