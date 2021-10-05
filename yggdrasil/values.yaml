@@ -26,3 +26,4 @@ applications:
   minio-operator: true
   prometheus: true
   thanos: true
+  vault: true
