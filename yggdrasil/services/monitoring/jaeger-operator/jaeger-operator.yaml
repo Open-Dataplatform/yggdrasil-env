@@ -52,6 +52,7 @@ janus:
             - name: jaeger-operator-test-jaeger-query
               port: 16686
           middlewares:
-            # - name: auth
+            - name: auth
+              namespace: networking
       certificate:
         enabled: true
