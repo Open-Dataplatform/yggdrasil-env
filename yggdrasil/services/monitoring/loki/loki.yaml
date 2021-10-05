@@ -28,7 +28,7 @@ lethe:
             # https://www.vaultproject.io/docs/auth/kubernetes
             kubernetes:
               # Path where the Kubernetes authentication backend is mounted in Vault
-              mountPath: "kubernetes"
+              mountPath: "kubernetes-test"
               # A required field containing the Vault Role to assume.
               role: "k8s-secrets"
 

@@ -1,6 +1,8 @@
 scName: poc
 nameSuffix: dev
 
+vaultServer: <vault-server>
+
 ingress:
   hosts:
     main:
