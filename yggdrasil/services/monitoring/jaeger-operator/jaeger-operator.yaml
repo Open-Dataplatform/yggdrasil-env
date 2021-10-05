@@ -52,17 +52,6 @@ janus:
             - name: jaeger-operator-test-jaeger-query
               port: 16686
           middlewares:
-            - name: auth
+            # - name: auth
       certificate:
         enabled: true
-  middlewares:
-    - name: auth
-      spec:
-        forwardAuth:
-          address: 'https://{{ .Values.authServer }}'
-          trustForwardHeader: true
-          authResponseHeaders:
-            - X-Forwarded-User
-          # TODO remove
-          tls:
-            insecureSkipVerify: true
