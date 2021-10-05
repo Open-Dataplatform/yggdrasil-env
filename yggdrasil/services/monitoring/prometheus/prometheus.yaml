@@ -74,44 +74,10 @@ prometheus:
         prometheus: Prometheus
 
   alertmanager:
-    # nodeSelector:
-    #   agentpool: monitoring
-    ingress:
-      enabled: false
-
-    baseURL: "https://{{ .Values.ingress.host }}/alertmanager"
-    prefixURL: "/alertmanager"
-
-    extraFlags:
-    - web.route-prefix=/alertmanager
-
-  # nodeExporter:
-    # nodeSelector:
-    #   agentpool: monitoring
+    enabled: false
 
 janus:
-  enabled: true
-  host: {{ .Values.ingress.hosts.main.host | quote }}
-  certmanagerIssuer:
-    name: {{ .Values.ingress.certmanagerissuer | quote }}
-    kind: ClusterIssuer
-
-  ingressRoutes:
-    - name: prometheus
-      entryPoints:
-        - websecure
-      routes:
-      - kind: Rule
-        # Without host
-        match: PathPrefix(`/alertmanager`)
-        services:
-          - name: prometheus-alertmanager
-            port: 80
-        middlewares:
-          - name: auth
-            namespace: networking
-      certificate:
-        enabled: true
+  enabled: false
 
 lethe:
   enabled: true
