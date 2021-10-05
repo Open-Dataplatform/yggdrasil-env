@@ -10,6 +10,9 @@ ingress:
     main:
       host: <host>
       loadBalancerIP: <ip>
+    auth:
+      host: <auth-host>
+      loadBalancerIP: <ip>
   LoadBalancerResoureGroup: <rg>
   certmanagerissuer:  <cluster-issuer>
   # className: ingress-traefik

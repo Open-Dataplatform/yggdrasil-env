@@ -1,6 +1,8 @@
 appHost: westeurope.cloudapp.azure.com
 authHost: {{ .Values.ingress.hosts.auth.host }}
 
+saName: traefik-test
+
 janus:
   enabled: true
   host: {{ .Values.ingress.hosts.auth.host | quote }}
