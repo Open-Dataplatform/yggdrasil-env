@@ -1,0 +1,69 @@
+appHost: westeurope.cloudapp.azure.com
+authHost: {{ .Values.ingress.hosts.auth.host }}
+
+janus:
+  enabled: true
+  host: {{ .Values.ingress.hosts.auth.host | quote }}
+  certmanagerIssuer:
+    name: {{ .Values.ingress.certmanagerissuer | quote }}
+    kind: ClusterIssuer
+
+  ingressRoutes:
+    - name: traefik-forward-auth
+      entryPoints:
+        - websecure
+      routes:
+      - kind: Rule
+        match: {}
+        services:
+          - name: traefik-forward-auth-test-service
+            port: 4181
+        middlewares:
+          - name: auth
+            namespace: networking
+      certificate:
+        enabled: true
+
+lethe:
+  enabled: true
+  secretStores:
+    - name: sso-secret-store
+      providers:
+        vault:
+          server: "{{ .Values.vaultServer }}"
+          path: "k8s"
+          version: "v2"
+          auth:
+            # Authenticate against Vault using a Kubernetes ServiceAccount
+            # token stored in a Secret.
+            # https://www.vaultproject.io/docs/auth/kubernetes
+            kubernetes:
+              # Path where the Kubernetes authentication backend is mounted in Vault
+              mountPath: "{{ template "helper.name" (dict "context" . "name" "kubernetes") }}"
+              # A required field containing the Vault Role to assume.
+              role: "k8s-secrets"
+
+  secrets:
+    - name: sso-secret
+      secretStore:
+        backend: sso-secret-store
+        kind: SecretStore
+      target:
+        name: sso-secret
+      data:
+        - secretKey: issuerurl
+          remoteRef:
+            key: secrets/sso
+            property: issuerurl
+        - secretKey: clientid
+          remoteRef:
+            key: secrets/sso
+            property: clientid
+        - secretKey: clientsecret
+          remoteRef:
+            key: secrets/sso
+            property: clientsecret
+        - secretKey: jwtsecret
+          remoteRef:
+            key: secrets/sso
+            property: jwtsecret

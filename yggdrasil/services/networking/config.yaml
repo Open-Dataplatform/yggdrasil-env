@@ -20,6 +20,12 @@ apps:
       targetRevision: 0.2.x
       chart: "traefik"
       valuesFile: "traefik.yaml"
+  - name: traefik-forward-auth
+    source:
+      repoURL: "https://open-olympus-project.github.io/repo-helm/"
+      targetRevision: 0.1.x
+      chart: "traefik-forward-auth"
+      valuesFile: "traefik-forward-auth.yaml"
   - name: cert-manager
     source:
       repoURL: "https://open-olympus-project.github.io/repo-helm/"

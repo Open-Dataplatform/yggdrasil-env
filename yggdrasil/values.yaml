@@ -28,4 +28,5 @@ applications:
   minio-operator: true
   prometheus: true
   thanos: true
+  traefik-forward-auth: true
   vault: true
