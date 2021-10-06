@@ -4,6 +4,30 @@
 # Values for the subchart
 thanos:
   objstoreSecretOverride: "thanos-bucket"
+  store:
+    enabled: false
+
+  query:
+    enabled: false
+    http:
+      ingress:
+        enabled: false
+
+  compact:
+    enabled: false
+
+  bucket:
+    enabled: false
+
+  sidecar:
+    # NOTE: This is only the service references for the sidecar
+    enabled: true
+    http:
+      ingress:
+        enabled: false
+    grpc:
+      ingress:
+        enabled: false
 
 janus:
   enabled: false
