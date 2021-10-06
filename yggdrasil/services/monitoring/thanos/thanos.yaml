@@ -30,7 +30,25 @@ thanos:
         enabled: false
 
 janus:
-  enabled: false
+  enabled: true
+  host: {{ .Values.ingress.hosts.main.host | quote }}
+  certmanagerIssuer:
+    name: {{ .Values.ingress.certmanagerissuer | quote }}
+    kind: ClusterIssuer
+
+  ingressRoutes:
+    - name: argo-workflows
+      entryPoints:
+        - websecure
+      routes:
+        - kind: Rule
+          match: PathPrefix(`/`)
+          services:
+            - name: thanos-{{ .Values.nameSuffix }}-sidecar-grpc
+              port: 10901
+              scheme: h2c
+      certificate:
+        enabled: true
 
 lethe:
   enabled: false
