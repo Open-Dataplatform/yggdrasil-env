@@ -1,6 +1,5 @@
 name: monitoring
 namespace: monitoring
-destinationServer: https://env-ps-test-44fff1eb.hcp.westeurope.azmk8s.io:443
 description: All the monitoring apps, including but not limited to prometheus, grafana, thanos, loki.
 
 project:

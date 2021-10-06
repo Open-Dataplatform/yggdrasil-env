@@ -1,6 +1,5 @@
 name: tooling
 namespace: tooling
-destinationServer: https://env-ps-test-44fff1eb.hcp.westeurope.azmk8s.io:443
 description: Tooling services Argo WF, Harbor.
 
 project:

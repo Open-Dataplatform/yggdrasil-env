@@ -4,6 +4,8 @@ nameSuffix: dev
 vaultServer: <vault-server>
 serviceServer: <service-server>
 
+destinationServer: <dest-server>
+
 ingress:
   hosts:
     main:

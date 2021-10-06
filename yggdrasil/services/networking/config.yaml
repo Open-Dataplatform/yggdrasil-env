@@ -1,6 +1,5 @@
 name: networking
 namespace: networking
-destinationServer: https://env-ps-test-44fff1eb.hcp.westeurope.azmk8s.io:443
 description: networking services like ingress, cert-manager.
 
 project:
