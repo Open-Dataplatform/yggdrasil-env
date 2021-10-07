@@ -12,6 +12,8 @@ thanos:
     http:
       ingress:
         enabled: false
+    stores:
+      - tooling-thanos-query-grpc-tls.monitoring.svc.cluster.local:10901
 
   compact:
     enabled: false
