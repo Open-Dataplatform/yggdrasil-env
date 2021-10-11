@@ -52,7 +52,7 @@ janus:
             - name: jaeger-operator-{{ .Values.nameSuffix }}-jaeger-query
               port: 16686
           middlewares:
-            # - name: auth
-            #   namespace: networking
+            - name: auth
+              namespace: networking
       certificate:
         enabled: true
