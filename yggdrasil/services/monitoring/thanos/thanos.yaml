@@ -37,7 +37,7 @@ janus:
     kind: ClusterIssuer
 
   ingressRoutes:
-    - name: argo-workflows
+    - name: thanos-sidecar
       entryPoints:
         - websecure
       routes:
