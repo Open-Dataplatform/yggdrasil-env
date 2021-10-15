@@ -31,7 +31,7 @@ thanos:
 
 janus:
   enabled: true
-  host: {{ .Values.ingress.hosts.main.host | quote }}
+  host: thanos.{{ .Values.ingress.host }}
   certmanagerIssuer:
     name: {{ .Values.ingress.certmanagerissuer | quote }}
     kind: ClusterIssuer

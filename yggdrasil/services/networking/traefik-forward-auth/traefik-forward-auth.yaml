@@ -1,11 +1,11 @@
-appHost: westeurope.cloudapp.azure.com
-authHost: {{ .Values.ingress.hosts.auth.host }}
+appHost: {{ .Values.ingress.host }}
+authHost: auth.{{ .Values.ingress.host }}
 
 saName: traefik-{{ .Values.nameSuffix }}
 
 janus:
   enabled: true
-  host: {{ .Values.ingress.hosts.auth.host | quote }}
+  host: {{ .Values.ingress.host }}
   certmanagerIssuer:
     name: {{ .Values.ingress.certmanagerissuer | quote }}
     kind: ClusterIssuer

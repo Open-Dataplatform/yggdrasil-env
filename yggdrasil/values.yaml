@@ -7,13 +7,8 @@ lokiServer: <loki-server>
 destinationServer: <dest-server>
 
 ingress:
-  hosts:
-    main:
-      host: <host>
-      loadBalancerIP: <ip>
-    auth:
-      host: <auth-host>
-      loadBalancerIP: <ip>
+  host: <host>
+  loadBalancerIP: <ip>
   LoadBalancerResoureGroup: <rg>
   certmanagerissuer:  <cluster-issuer>
   # className: ingress-traefik
