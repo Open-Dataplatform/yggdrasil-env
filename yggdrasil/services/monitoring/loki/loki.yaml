@@ -8,7 +8,7 @@ loki:
 promtail:
   enabled: true
   config:
-    lokiAddress: "{{ .Values.serviceServer }}/loki/api/v1/push"
+    lokiAddress: "{{ .Values.lokiServer }}/api/v1/push"
 
 janus:
   enabled: false

@@ -2,7 +2,7 @@ scName: poc
 nameSuffix: dev
 
 vaultServer: <vault-server>
-serviceServer: <service-server>
+lokiServer: <loki-server>
 
 destinationServer: <dest-server>
 
