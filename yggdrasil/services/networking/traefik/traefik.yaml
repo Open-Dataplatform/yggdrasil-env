@@ -1,5 +1,5 @@
 services:
-{{- with $.Values.ingress.host }}
+{{- with $.Values.ingress }}
   - enabled: true
     namePrefix: {{ printf "%s" "" | quote }}
     type: LoadBalancer
