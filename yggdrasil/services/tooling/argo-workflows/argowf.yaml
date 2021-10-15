@@ -2,14 +2,14 @@ argo-workflows:
   server:
     sso:
       issuer: https://login.microsoftonline.com/f7619355-6c67-4100-9a78-1847f30742e2/v2.0
-      redirectUrl: https://argowf{{ .Values.ingress.host }}/oauth2/callback
+      redirectUrl: https://argowf.{{ .Values.ingress.host }}/oauth2/callback
   controller:
     workflowNamespaces:
       - tooling
 
 janus:
   enabled: true
-  host: {{ .Values.ingress.host }}
+  host: argowf.{{ .Values.ingress.host }}
   certmanagerIssuer:
     name: {{ .Values.ingress.certmanagerissuer | quote }}
     kind: ClusterIssuer
