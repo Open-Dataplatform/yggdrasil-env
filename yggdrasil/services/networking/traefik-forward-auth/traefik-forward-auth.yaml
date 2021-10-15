@@ -5,7 +5,7 @@ saName: traefik-{{ .Values.nameSuffix }}
 
 janus:
   enabled: true
-  host: {{ .Values.ingress.host }}
+  host: auth.{{ .Values.ingress.host }}
   certmanagerIssuer:
     name: {{ .Values.ingress.certmanagerissuer | quote }}
     kind: ClusterIssuer
