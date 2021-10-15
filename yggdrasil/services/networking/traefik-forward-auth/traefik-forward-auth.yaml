@@ -18,7 +18,7 @@ janus:
       - kind: Rule
         match: {}
         services:
-          - name: traefik-forward-auth-{{ .Values.nameSuffix }}-service
+          - name: traefik-forward-auth-service
             port: 4181
         middlewares:
           - name: auth
