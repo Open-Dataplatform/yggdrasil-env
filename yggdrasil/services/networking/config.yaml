@@ -8,9 +8,9 @@ project:
     - '*'
   destinations:
     - namespace: kube-system
-      server: https://env-ps-test-1ce8eacc.hcp.westeurope.azmk8s.io:443
+      server: https://env-ps-test-129dfade.hcp.westeurope.azmk8s.io/
     - namespace: nidhogg
-      server: https://env-ps-test-1ce8eacc.hcp.westeurope.azmk8s.io:443
+      server: https://env-ps-test-129dfade.hcp.westeurope.azmk8s.io/
 
 apps:
   - name: traefik
