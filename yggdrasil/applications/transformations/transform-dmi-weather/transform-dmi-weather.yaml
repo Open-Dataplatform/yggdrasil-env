@@ -2,3 +2,5 @@ osiris-scheduler:
   global:
     # The environment the the app will run in
     environment: {{ .Values.nameSuffix }}
+    # The server to get the secret from
+    secretServer: {{ .Values.vaultServer }}
