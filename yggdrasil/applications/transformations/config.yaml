@@ -1,7 +1,7 @@
 name: transformations
 clusterService: false
-namespace: argo-events
-description: Argo events setup
+namespace: transformations
+description: transformations
 
 project:
   name: transformations
@@ -9,7 +9,7 @@ project:
     - '*'
 
 apps:
-  - name: argo-events-azure
+  - name: transform-dmi-weather
     source:
       repoURL: "https://github.com/Open-Dataplatform/transform-dmi-weather.git"
       targetRevision: feature/charts
