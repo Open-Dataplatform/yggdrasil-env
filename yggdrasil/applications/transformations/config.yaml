@@ -12,6 +12,6 @@ apps:
   - name: i2et-sf6
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.10
+      targetRevision: 0.1.11
       chart: "osiris-scheduler"
       valuesFile: "i2et-sf6.yaml"
