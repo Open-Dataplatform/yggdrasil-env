@@ -32,3 +32,4 @@ applications:
 
   # Transformations
   transform-dmi-weather: false
+  i2et-sf6: true
