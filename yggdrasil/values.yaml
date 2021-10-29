@@ -29,3 +29,6 @@ applications:
   thanos: true
   traefik-forward-auth: true
   vault: true
+
+  # Transformations
+  transform-dmi-weather: true
