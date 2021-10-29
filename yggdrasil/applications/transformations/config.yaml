@@ -9,9 +9,9 @@ project:
     - '*'
 
 apps:
-  - name: transform-dmi-weather
+  - name: i2et-sf6
     source:
-      repoURL: "https://github.com/Open-Dataplatform/transform-dmi-weather.git"
-      targetRevision: feature/charts
-      path: chart
-      valuesFile: "transform-dmi-weather.yaml"
+      repoURL: "https://open-dataplatform.github.io/osiris-helm/"
+      targetRevision: 0.1.10
+      chart: "osiris-scheduler"
+      valuesFile: "i2et-sf6.yaml"
