@@ -50,8 +50,8 @@ workflowTemplate:
   parallelism: 1
 
   # NodeSelector is a selector which will result in all pods of the workflow to be scheduled on the selected node(s).
-  # nodeSelector:
-  #   agentpool: worker
+  nodeSelector: {}
+    # agentpool: worker
 
 # determins the state of the jeager sidecar
 jaeger:
@@ -68,9 +68,9 @@ cron:
   # * Forbid: do not allow any new while there are old
   concurrencyPolicy: "Forbid"
 
-
+# The expected format of the secrets
+# https://external-secrets.io/guides-templating/
 secretTemplate:
-  # https://external-secrets.io/guides-templating/
   credentials.ini: |
     [Authorization]
     tenant_id = {{`{{ .tenantId | toString }}`}}
