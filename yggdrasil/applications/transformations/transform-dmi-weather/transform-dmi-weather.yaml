@@ -1,6 +1,125 @@
-osiris-scheduler:
-  global:
-    # The environment the the app will run in
-    environment: {{ .Values.nameSuffix }}
-    # The server to get the secret from
-    secretServer: {{ .Values.vaultServer }}
+global:
+  # The type of application that's running
+  # * transformation
+  # * adapter
+  # * something else
+  type: transformation
+  # The name of the application that should be running (Has to be DNS compliant)
+  name: rando
+  # Name of the secret needed for the app to run
+  secretName: rando
+  # OBS THIS IS OVERRIDEN BY YGGDRASIL
+  # The server to get the secret from
+  secretServer: http://vault.tooling.svc:8200
+  # OBS THIS IS OVERRIDEN BY YGGDRASIL
+  # The environment the the app will run in
+  environment: test
+
+workflowTemplate:
+  # the image that the scheduler will atempt to run
+  image:
+    # The image repo
+    repository: image/docker
+    # The image tag
+    tag: latest
+    # The pullPolicy
+    # * If not present - If the image is not cached on the device
+    # * Always         - Will always try to fetch the newest image
+    # * Never          - Will not try to fetch an image - if image is not present on the machine startup fails
+    pullPolicy: Always
+
+  # The command needed to run the application code
+  command: python -m rando
+
+  # The path the config will be on
+  # The name of the file is also derived from this
+  configPath: /etc/osiris-conf/conf.ini
+
+  # The path the credentils file should be on
+  # The name of the file is also derived from this
+  credentialsPath: /etc/osiris-creds/credentials.ini
+
+  # Pod GC strategy must be one of the following:
+  # * OnPodCompletion - delete pods immediately when pod is completed (including errors/failures)
+  # * OnPodSuccess - delete pods immediately when pod is successful
+  # * OnWorkflowCompletion - delete pods when workflow is completed
+  # * OnWorkflowSuccess - delete pods when workflow is successful
+  podGC: OnPodSuccess
+
+
+
+  # NodeSelector is a selector which will result in all pods of the workflow to be scheduled on the selected node(s).
+  nodeSelector:
+    agentpool: worker
+
+# determins the state of the jeager sidecar
+jaeger:
+  enabled: true
+
+# Settings for the cron-workflow
+cron:
+  # The schedule determins when the workflow will run
+  schedule: "0 * * * *"
+  # Concurrency policy determines what to do if multiple Workflows are scheduled at the same time.
+  # Available options:
+  # * Allow: allow all
+  # * Replace: remove all old before scheduling a new
+  # * Forbid: do not allow any new while there are old
+  concurrencyPolicy: "Forbid"
+
+# This will be appended on the `charts/osiris-scheduler/files/config.ini`
+# The config.ini file exists for me to template default values pr environment.
+
+# Config take the content a builds files from the and adds them in the pod under /etc/osiris/
+configFiles:
+  conf.ini: |
+    [Logging]
+    configuration_file = /etc/osiris/log.conf
+    disable_logger_labels =
+        apache_beam.runners.portability.fn_api_runner.fn_runner
+        azure.core.pipeline.policies.http_logging_policy
+        azure.identity._internal.get_token_mixin
+        apache_beam.runners.portability.fn_api_runner.translations
+        apache_beam.runners.worker.statecache
+        apache_beam.runners.portability.fn_api_runner.worker_handlers
+
+    [Azure Storage]
+    account_url = https://dpcontentstorage{{ $.Values.global.environment }}.dfs.core.windows.net
+    filesystem_name = datasets
+    [Prometheus]
+    hostname = tooling-prometheus-{{ $.Values.global.environment }}-pushgateway.monitoring.svc:9091
+    environment = {{ $.Values.global.environment }}
+    name = {{ $.Values.global.name }}
+    [Jaeger Agent]
+    reporting_host = localhost
+    reporting_port = localhost
+    name = {{ $.Values.global.name }}
+
+    [Datasets]
+    source = guid-src
+    destination = guid-dest
+    model = harmonie
+    batch_size = 5
+
+  log.conf: |
+    [loggers]
+    keys=root
+    [handlers]
+    keys=consoleHandler,fileHandler
+    [formatters]
+    keys=fileFormatter,consoleFormatter
+    [logger_root]
+    level=WARNING
+    handlers=consoleHandler
+    [handler_consoleHandler]
+    class=StreamHandler
+    formatter=consoleFormatter
+    args=(sys.stdout,)
+    [handler_fileHandler]
+    class=FileHandler
+    formatter=fileFormatter
+    args=('logfile.log',)
+    [formatter_fileFormatter]
+    format=%(asctime)s - %(name)s - %(levelname)s - %(message)s
+    [formatter_consoleFormatter]
+    format=%(asctime)s - %(name)s - %(levelname)s - %(message)s

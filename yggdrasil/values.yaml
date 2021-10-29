@@ -31,4 +31,4 @@ applications:
   vault: true
 
   # Transformations
-  transform-dmi-weather: true
+  transform-dmi-weather: false
