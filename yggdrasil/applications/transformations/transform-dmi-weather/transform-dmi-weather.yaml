@@ -1,0 +1,4 @@
+osiris-scheduler:
+  global:
+    # The environment the the app will run in
+    environment: {{ .Values.nameSuffix }}

@@ -6,6 +6,7 @@ argo-workflows:
   controller:
     workflowNamespaces:
       - tooling
+      - transformations
 
 janus:
   enabled: true

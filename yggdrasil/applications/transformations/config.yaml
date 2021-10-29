@@ -1,0 +1,17 @@
+name: transformations
+clusterService: false
+namespace: argo-events
+description: Argo events setup
+
+project:
+  name: transformations
+  sourceRepos:
+    - '*'
+
+apps:
+  - name: argo-events-azure
+    source:
+      repoURL: "https://github.com/Open-Dataplatform/transform-dmi-weather.git"
+      targetRevision: feature/charts
+      path: chart
+      valuesFile: "transform-dmi-weather.yaml"
