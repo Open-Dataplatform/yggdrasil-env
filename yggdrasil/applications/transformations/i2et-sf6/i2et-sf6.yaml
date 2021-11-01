@@ -6,11 +6,6 @@ global:
   type: transformation
   # The name of the application that should be running (Has to be DNS compliant)
   name: i2et-sf6
-  # Name of the secret needed for the app to run
-  secretName: osiris-transform-ingress2event-time-sf6
-  # OBS THIS IS OVERRIDEN BY YGGDRASIL
-  # The server to get the secret from
-  secretServer: {{ .Values.vaultServer }}
   # OBS THIS IS OVERRIDEN BY YGGDRASIL
   # The environment the the app will run in
   environment: {{ .Values.nameSuffix }}
@@ -68,14 +63,25 @@ cron:
   # * Forbid: do not allow any new while there are old
   concurrencyPolicy: "Forbid"
 
-# The expected format of the secrets
-# https://external-secrets.io/guides-templating/
-secretTemplate:
-  credentials.ini: |
-    [Authorization]
-    tenant_id = {{`{{ .tenantId | toString }}`}}
-    client_id = {{`{{ .clientId | toString }}`}}
-    client_secret = {{`{{ .clientSecret | toString }}`}}
+secrets:
+  # Name of the secret needed for the app to run
+  secretName: osiris-transform-ingress2event-time-sf6
+
+  # OBS THIS IS OVERRIDEN BY YGGDRASIL
+  # The server to get the secret from
+  secretServer: {{ .Values.vaultServer }}
+
+  # The auth path that we need to authendicate against
+  mountPath: "kubernetes-{{ .Values.nameSuffix }}"
+
+  # The expected format of the secrets
+  # https://external-secrets.io/guides-templating/
+  secretTemplate:
+    credentials.ini: |
+      [Authorization]
+      tenant_id = {{`{{ .tenantId | toString }}`}}
+      client_id = {{`{{ .clientId | toString }}`}}
+      client_secret = {{`{{ .clientSecret | toString }}`}}
 
 # Config take the content a builds files from the and adds them in the pod under /etc/osiris/
 configFiles:
