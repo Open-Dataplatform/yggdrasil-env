@@ -53,7 +53,7 @@ janus:
     - name: argo-workflows
       entryPoints:
         - websecure
-      routes: prefix("/backend")
+      routes:
         - kind: Rule
           match:
           services:
