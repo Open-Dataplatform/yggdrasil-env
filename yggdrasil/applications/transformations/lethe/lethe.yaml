@@ -1,0 +1,60 @@
+lethe:
+  enabled: true
+  secretStores:
+    - name: k8s-secret-backend
+      providers:
+        vault:
+          server: "{{ .Values.vaultServer }}"
+          path: "k8s"
+          version: "v2"
+          auth:
+            # Authenticate against Vault using a Kubernetes ServiceAccount
+            # token stored in a Secret.
+            # https://www.vaultproject.io/docs/auth/kubernetes
+            kubernetes:
+              # Path where the Kubernetes authentication backend is mounted in Vault
+              mountPath: "{{ template "helper.name" (dict "context" . "name" "kubernetes") }}"
+              # A required field containing the Vault Role to assume.
+              role: "k8s-secrets"
+
+  secrets:
+    - name: minio-creds-secret
+      secretStore:
+        backend: k8s-secret-backend
+        kind: SecretStore
+      target:
+        name: minio-creds-secret
+      data:
+        - secretKey: accesskey
+          remoteRef:
+            key: secrets/minio
+            property: accesskey
+        - secretKey: secretkey
+          remoteRef:
+            key: secrets/minio
+            property: secretkey
+
+    - name: image-pull-sec-es
+      secretStore:
+        backend: k8s-secret-backend
+        kind: SecretStore
+      target:
+        name: image-pull-sec
+        template:
+          type: kubernetes.io/dockerconfigjson
+          data:
+            .dockerconfigjson: |
+              {"auths":{"serviceacrps.azurecr.io":{"username":"{{`{{ .username | toString }}`}}","password":"{{`{{ .password | toString }}`}}","auth":"{{`{{ .auth | base64encode | toString }}`}}"}}}
+      data:
+        - secretKey: password
+          remoteRef:
+            key: secrets/acr-creds
+            property: password
+        - secretKey: username
+          remoteRef:
+            key: secrets/acr-creds
+            property: username
+        - secretKey: auth
+          remoteRef:
+            key: secrets/acr-creds
+            property: auth

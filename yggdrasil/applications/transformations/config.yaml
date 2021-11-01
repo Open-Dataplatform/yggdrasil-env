@@ -9,9 +9,15 @@ project:
     - '*'
 
 apps:
-  - name: i2et-sf6
+  - name: namespace-secrets
+    source:
+      repoURL: "https://open-olympus-project.github.io/repo-helm"
+      targetRevision: 0.1.3
+      chart: "lethe"
+      valuesFile: "lethe.yaml"
+  - name: t-i2et-sf6
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
       targetRevision: 0.1.12
       chart: "osiris-scheduler"
-      valuesFile: "i2et-sf6.yaml"
+      valuesFile: "t-i2et-sf6.yaml"
