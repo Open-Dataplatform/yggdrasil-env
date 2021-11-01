@@ -1,0 +1,29 @@
+name: datacatalog
+clusterService: false
+namespace: datacatalog
+description: datacatalog
+
+project:
+  name: datacatalog
+  sourceRepos:
+    - '*'
+
+apps:
+  - name: datacatalog-secrets
+    source:
+      repoURL: "https://open-olympus-project.github.io/repo-helm"
+      targetRevision: 0.1.3
+      chart: "lethe"
+      valuesFile: "lethe.yaml"
+  - name: frontend
+    source:
+      repoURL: "https://github.com/Open-Dataplatform/datacatalog-frontend"
+      targetRevision: main
+      path: "chart"
+      valuesFile: "frontend.yaml"
+  - name: backend
+    source:
+      repoURL: "https://github.com/Open-Dataplatform/datacatalog-backend"
+      targetRevision: feature/new-ingress
+      path: "chart"
+      valuesFile: "backend.yaml"

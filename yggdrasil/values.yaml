@@ -30,6 +30,11 @@ applications:
   traefik-forward-auth: true
   vault: true
 
+  # Data catalog
+  frontend: false
+  backend: true
+
   # Transformations
   t-i2et-sf6: true
   transformations-secrets: true
+
