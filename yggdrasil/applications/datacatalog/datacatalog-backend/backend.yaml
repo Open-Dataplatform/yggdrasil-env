@@ -46,7 +46,7 @@ job:
     - name: migration-secret
       secret:
         secretName: datacatalog-api-migration-{{ .Values.nameSuffix }}-secret
-  volumeMounts: []
+  volumeMounts:
     - name: migration-secret
       mountPath: "/vault/secrets"
       readOnly: true
