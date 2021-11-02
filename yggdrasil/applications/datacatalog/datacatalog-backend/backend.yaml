@@ -133,7 +133,7 @@ lethe:
             property: connection_string
     - name: datacatalog-api-{{ .Values.nameSuffix }}-es
       secretStore:
-        backend: datacatalog-api-ss
+        backend: datacatalog-api-{{ .Values.nameSuffix }}-ss
         kind: SecretStore
       target:
         name: datacatalog-api-{{ .Values.nameSuffix }}-secret
