@@ -82,7 +82,7 @@ lethe:
               role: " datacatalog-api-{{ .Values.nameSuffix }}-reader"
 
   secrets:
-    - name: datacatalog-api-es
+    - name: datacatalog-api-migration-es
       secretStore:
         backend: datacatalog-api-ss
         kind: SecretStore
@@ -101,7 +101,7 @@ lethe:
           remoteRef:
             key: credentials
             property: connection_string
-    - name: datacatalog-api-es
+    - name: datacatalog-api-drm-es
       secretStore:
         backend: datacatalog-api-ss
         kind: SecretStore
