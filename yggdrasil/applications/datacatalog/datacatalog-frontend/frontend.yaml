@@ -80,7 +80,7 @@ lethe:
         backend: dataplatform-ss
         kind: SecretStore
       target:
-        name: datacatalog-frontend-crt
+        name: datacatalog-frontend-tls
         template:
           type: kubernetes.io/tls
           data:
