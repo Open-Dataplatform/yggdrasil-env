@@ -114,7 +114,7 @@ lethe:
         "helm.sh/hook": pre-install,pre-upgrade
         "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
       secretStore:
-        backend: datacatalog-api-migration-ss
+        backend: datacatalog-api-migration-{{ .Values.nameSuffix }}-ss
         kind: SecretStore
       target:
         name: datacatalog-api-migration-{{ .Values.nameSuffix }}-secret
