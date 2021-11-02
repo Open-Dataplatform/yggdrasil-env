@@ -17,6 +17,15 @@ apiDeployment:
     "ContactInfo__Link": "https://energinet.service-now.com/sp?id=sc_cat_item&sys_id=99b1b49287a6f450b11964e80cbb35a5&sysparm_category=4e327cd287a6f450b11964e80cbb3599"
     "ContactInfo__Email": "datahelp@energinet.dk"
 
+  volumes:
+    - name: datacatalog-secret
+      secret:
+        secretName: datacatalog-api-{{ .Values.nameSuffix }}-secret
+  volumeMounts:
+    - name: datacatalog-secret
+      mountPath: "/vault/secrets"
+      readOnly: true
+
 drmDeployment:
   imagePullSecrets:
     - name: image-pull-sec
@@ -28,6 +37,15 @@ drmDeployment:
     tag: 3fb47d1
   env:
     "ASPNETCORE_ENVIRONMENT": "{{ .Values.nameSuffix }}"
+
+  volumes:
+    - name: datacatalog-secret
+      secret:
+        secretName: datacatalog-api-{{ .Values.nameSuffix }}-secret
+  volumeMounts:
+    - name: datacatalog-secret
+      mountPath: "/vault/secrets"
+      readOnly: true
 
 job:
   enabled: true
