@@ -65,6 +65,24 @@ janus:
 lethe:
   enabled: true
   secretStores:
+    - name: datacatalog-api-migration-ss
+      annotations:
+        "helm.sh/hook": pre-install,pre-upgrade
+        "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
+      providers:
+        vault:
+          server: "https://service-vault-dp.westeurope.cloudapp.azure.com/"
+          path: " datacatalog-api-{{ .Values.nameSuffix }}"
+          version: "v2"
+          auth:
+            # Authenticate against Vault using a Kubernetes ServiceAccount
+            # token stored in a Secret.
+            # https://www.vaultproject.io/docs/auth/kubernetes
+            kubernetes:
+              # Path where the Kubernetes authentication backend is mounted in Vault
+              mountPath: "kubernetes-{{ .Values.nameSuffix }}"
+              # A required field containing the Vault Role to assume.
+              role: " datacatalog-api-{{ .Values.nameSuffix }}-reader"
     - name: datacatalog-api-ss
       providers:
         vault:
@@ -83,8 +101,11 @@ lethe:
 
   secrets:
     - name: datacatalog-api-migration-es
+      annotations:
+        "helm.sh/hook": pre-install,pre-upgrade
+        "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
       secretStore:
-        backend: datacatalog-api-ss
+        backend: datacatalog-api-migration-ss
         kind: SecretStore
       target:
         name: datacatalog-api-migration-{{ .Values.nameSuffix }}-secret
