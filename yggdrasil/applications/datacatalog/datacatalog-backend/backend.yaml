@@ -82,7 +82,7 @@ lethe:
               # Path where the Kubernetes authentication backend is mounted in Vault
               mountPath: "kubernetes-{{ .Values.nameSuffix }}"
               # A required field containing the Vault Role to assume.
-              role: " datacatalog-api-{{ .Values.nameSuffix }}-reader"
+              role: "datacatalog-api-{{ .Values.nameSuffix }}-reader"
     - name: datacatalog-api-ss
       providers:
         vault:
@@ -97,7 +97,7 @@ lethe:
               # Path where the Kubernetes authentication backend is mounted in Vault
               mountPath: "kubernetes-{{ .Values.nameSuffix }}"
               # A required field containing the Vault Role to assume.
-              role: " datacatalog-api-{{ .Values.nameSuffix }}-reader"
+              role: "datacatalog-api-{{ .Values.nameSuffix }}-reader"
 
   secrets:
     - name: datacatalog-api-migration-es
