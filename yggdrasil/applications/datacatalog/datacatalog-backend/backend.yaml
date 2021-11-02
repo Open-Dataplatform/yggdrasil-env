@@ -71,7 +71,7 @@ lethe:
         "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
       providers:
         vault:
-          server: "https://service-vault-dp.westeurope.cloudapp.azure.com/"
+          server: "{{ .Values.vaultServer }}"
           path: " datacatalog-api"
           version: "v2"
           auth:
@@ -86,7 +86,7 @@ lethe:
     - name: datacatalog-api-ss
       providers:
         vault:
-          server: "https://service-vault-dp.westeurope.cloudapp.azure.com/"
+          server: "{{ .Values.vaultServer }}"
           path: " datacatalog-api-{{ .Values.nameSuffix }}"
           version: "v2"
           auth:
