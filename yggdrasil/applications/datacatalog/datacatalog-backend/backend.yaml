@@ -69,6 +69,9 @@ job:
       mountPath: "/vault/secrets"
       readOnly: true
 
+ingress:
+  enabled: false
+
 janus:
   enabled: true
   host: datacatalog-backend.{{ .Values.ingress.host }}
@@ -84,7 +87,7 @@ janus:
         - kind: Rule
           match:
           services:
-            - name: datacatalog-backend-prod-svc
+            - name: datacatalog-backend-{{ .Values.nameSuffix }}-svc
               port: 80
       certificate:
         enabled: true
