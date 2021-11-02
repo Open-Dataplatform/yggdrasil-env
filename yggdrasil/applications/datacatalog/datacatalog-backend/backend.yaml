@@ -81,7 +81,7 @@ lethe:
       providers:
         vault:
           server: "{{ .Values.vaultServer }}"
-          path: "datacatalog-api"
+          path: "datacatalog-api/{{ .Values.nameSuffix }}"
           version: "v2"
           auth:
             # Authenticate against Vault using a Kubernetes ServiceAccount
@@ -96,7 +96,7 @@ lethe:
       providers:
         vault:
           server: "{{ .Values.vaultServer }}"
-          path: "datacatalog-api"
+          path: "datacatalog-api/{{ .Values.nameSuffix }}"
           version: "v2"
           auth:
             # Authenticate against Vault using a Kubernetes ServiceAccount
@@ -129,7 +129,7 @@ lethe:
       data:
         - secretKey: connection_string
           remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
+            key: credentials
             property: connection_string
     - name: datacatalog-api-{{ .Values.nameSuffix }}-es
       secretStore:
@@ -155,25 +155,25 @@ lethe:
       data:
         - secretKey: connection_string
           remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
+            key: credentials
             property: connection_string
         - secretKey: data_lake_client_id
           remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
+            key: credentials
             property: data_lake_client_id
         - secretKey: data_lake_client_secret
           remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
+            key: credentials
             property: data_lake_client_secret
         - secretKey: group_management_client_id
           remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
+            key: credentials
             property: group_management_client_id
         - secretKey: group_management_client_secret
           remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
+            key: credentials
             property: group_management_client_secret
         - secretKey: tenant_id
           remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
+            key: credentials
             property: tenant_id
