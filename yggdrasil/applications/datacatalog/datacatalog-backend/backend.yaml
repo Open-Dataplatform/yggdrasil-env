@@ -81,7 +81,7 @@ lethe:
       providers:
         vault:
           server: "{{ .Values.vaultServer }}"
-          path: " datacatalog-api"
+          path: "datacatalog-api"
           version: "v2"
           auth:
             # Authenticate against Vault using a Kubernetes ServiceAccount
@@ -96,7 +96,7 @@ lethe:
       providers:
         vault:
           server: "{{ .Values.vaultServer }}"
-          path: " datacatalog-api-{{ .Values.nameSuffix }}"
+          path: "datacatalog-api-{{ .Values.nameSuffix }}"
           version: "v2"
           auth:
             # Authenticate against Vault using a Kubernetes ServiceAccount
