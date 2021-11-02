@@ -32,8 +32,8 @@ applications:
 
   # Data catalog
   datacatalog-secrets: true
-  frontend: false
-  backend: true
+  datacatalog-frontend: false
+  datacatalog-backend: true
 
   # Transformations
   t-i2et-sf6: true

@@ -1,0 +1,195 @@
+appName: datacatalog-backend-{{ .Values.nameSuffix }}
+secretName: datacatalog-api-{{ .Values.nameSuffix }}
+environment: {{ .Values.nameSuffix }}
+
+apiDeployment:
+  imagePullSecrets:
+    - name: image-pull-sec
+  replicaCount: 1
+  nodeSelector:
+    agentpool: worker
+  image:
+    repository: serviceacrps.azurecr.io/datacatalog-backend
+    tag: 3fb47d1
+  env:
+    "ASPNETCORE_ENVIRONMENT": "{{ .Values.nameSuffix }}"
+    "ContactInfo__Name": "Data Stewards"
+    "ContactInfo__Link": "https://energinet.service-now.com/sp?id=sc_cat_item&sys_id=99b1b49287a6f450b11964e80cbb35a5&sysparm_category=4e327cd287a6f450b11964e80cbb3599"
+    "ContactInfo__Email": "datahelp@energinet.dk"
+
+drmDeployment:
+  imagePullSecrets:
+    - name: image-pull-sec
+  replicaCount: 1
+  nodeSelector:
+    agentpool: worker
+  image:
+    repository: serviceacrps.azurecr.io/datacatalog-backend-drm
+    tag: 3fb47d1
+  env:
+    "ASPNETCORE_ENVIRONMENT": "{{ .Values.nameSuffix }}"
+
+job:
+  enabled: true
+  imagePullSecrets:
+    - name: image-pull-sec
+  image:
+    repository: serviceacrps.azurecr.io/datacatalog-backend-migration
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: 3fb47d1
+
+  env:
+    "ASPNETCORE_ENVIRONMENT": "{{ .Values.nameSuffix }}"
+
+janus:
+  enabled: true
+  host: datacatalog-backend.{{ .Values.ingress.host }}
+  certmanagerIssuer:
+    name: {{ .Values.ingress.certmanagerissuer | quote }}
+    kind: ClusterIssuer
+
+  ingressRoutes:
+    - name: datacatalog-backend
+      entryPoints:
+        - websecure
+      routes:
+        - kind: Rule
+          match:
+          services:
+            - name: datacatalog-backend-prod-svc
+              port: 80
+      certificate:
+        enabled: true
+
+lethe:
+  enabled: true
+  secretStores:
+    - name: datacatalog-api-ss
+      providers:
+        vault:
+          server: "https://service-vault-dp.westeurope.cloudapp.azure.com/"
+          path: " datacatalog-api-{{ .Values.nameSuffix }}"
+          version: "v2"
+          auth:
+            # Authenticate against Vault using a Kubernetes ServiceAccount
+            # token stored in a Secret.
+            # https://www.vaultproject.io/docs/auth/kubernetes
+            kubernetes:
+              # Path where the Kubernetes authentication backend is mounted in Vault
+              mountPath: "kubernetes-{{ .Values.nameSuffix }}"
+              # A required field containing the Vault Role to assume.
+              role: " datacatalog-api-{{ .Values.nameSuffix }}-reader"
+
+  secrets:
+    - name: datacatalog-api-es
+      secretStore:
+        backend: datacatalog-api-ss
+        kind: SecretStore
+      target:
+        name: datacatalog-api-migration-{{ .Values.nameSuffix }}-secret
+        template:
+          data:
+            appsettings.secrets.json: |
+              {
+                "ConnectionStrings": {
+                  "DataCatalog": "{{`{{ .connection_string | toString }}`}}"
+                }
+              }
+      data:
+        - secretKey: connection_string
+          remoteRef:
+            key: credentials
+            property: connection_string
+    - name: datacatalog-api-es
+      secretStore:
+        backend: datacatalog-api-ss
+        kind: SecretStore
+      target:
+        name: datacatalog-api-drm-{{ .Values.nameSuffix }}-secret
+        template:
+          data:
+            appsettings.secrets.json: |
+              {
+                "GroupManagementClientId": "{{`{{ .group_management_client_id | toString }}`}}",
+                "GroupManagementClientSecret": "{{`{{ .group_management_client_secret | toString }}`}}",
+                "DataLakeClientId": "{{`{{ .data_lake_client_id | toString }}`}}",
+                "DataLakeClientSecret": "{{`{{ .data_lake_client_secret | toString }}`}}",
+                "ConnectionStrings": {
+                  "DataCatalog": "{{`{{ .connection_string | toString }}`}}"
+                },
+                "AzureAd": {
+                  "TenantId": "{{`{{ .tenant_id | toString }}`}}"
+                }
+              }
+      data:
+        - secretKey: connection_string
+          remoteRef:
+            key: credentials
+            property: connection_string
+        - secretKey: data_lake_client_id
+          remoteRef:
+            key: credentials
+            property: data_lake_client_id
+        - secretKey: data_lake_client_secret
+          remoteRef:
+            key: credentials
+            property: data_lake_client_secret
+        - secretKey: group_management_client_id
+          remoteRef:
+            key: credentials
+            property: group_management_client_id
+        - secretKey: group_management_client_secret
+          remoteRef:
+            key: credentials
+            property: group_management_client_secret
+        - secretKey: tenant_id
+          remoteRef:
+            key: credentials
+            property: tenant_id
+    - name: datacatalog-api-es
+      secretStore:
+        backend: datacatalog-api-ss
+        kind: SecretStore
+      target:
+        name: datacatalog-api-{{ .Values.nameSuffix }}-secret
+        template:
+          data:
+            appsettings.secrets.json: |
+              {
+                "GroupManagementClientId": "{{`{{ .group_management_client_id | toString }}`}}",
+                "GroupManagementClientSecret": "{{`{{ .group_management_client_secret | toString }}`}}",
+                "DataLakeClientId": "{{`{{ .data_lake_client_id | toString }}`}}",
+                "DataLakeClientSecret": "{{`{{ .data_lake_client_secret | toString }}`}}",
+                "ConnectionStrings": {
+                  "DataCatalog": "{{`{{ .connection_string | toString }}`}}"
+                },
+                "AzureAd": {
+                  "TenantId": "{{`{{ .tenant_id | toString }}`}}"
+                }
+              }
+      data:
+        - secretKey: connection_string
+          remoteRef:
+            key: credentials
+            property: connection_string
+        - secretKey: data_lake_client_id
+          remoteRef:
+            key: credentials
+            property: data_lake_client_id
+        - secretKey: data_lake_client_secret
+          remoteRef:
+            key: credentials
+            property: data_lake_client_secret
+        - secretKey: group_management_client_id
+          remoteRef:
+            key: credentials
+            property: group_management_client_id
+        - secretKey: group_management_client_secret
+          remoteRef:
+            key: credentials
+            property: group_management_client_secret
+        - secretKey: tenant_id
+          remoteRef:
+            key: credentials
+            property: tenant_id
