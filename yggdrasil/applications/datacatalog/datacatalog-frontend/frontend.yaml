@@ -1,0 +1,97 @@
+
+appName: datacatalog-frontend-{{ .Values.nameSuffix }}
+environment: {{ .Values.nameSuffix }}
+
+deployment:
+  replicaCount: 1
+  imagePullSecrets:
+    - name: image-pull-sec
+  image:
+    repository: serviceacrps.azurecr.io/datacatalog-frontend
+    tag: c01f7c0
+
+  dynamicEnvironment:
+    base: https://datacatalog-backend.{{ .Values.ingress.host }}
+    egressBase: https://dp-test.westeurope.cloudapp.azure.com/osiris-egress/v1
+    production: false
+    oidcSettings:
+      client_id: dde8fe45-c9e2-4a67-a55f-97791ddc49ba
+      authority: https://login.microsoftonline.com/f7619355-6c67-4100-9a78-1847f30742e2/v2.0/
+      response_type: code
+      post_logout_redirect_uri: https://datacatalog.{{ .Values.ingress.host }}
+      loadUserInfo: false
+      redirect_uri: https://datacatalog.{{ .Values.ingress.host }}/login
+      silent_redirect_uri: https://datacatalog.{{ .Values.ingress.host }}/login
+      automaticSilentRenew: true
+      scope: api://dde8fe45-c9e2-4a67-a55f-97791ddc49ba/user_impersonation openid profile offline_access
+    oboOidcSettings:
+      client_id: d9cd520e-2317-4db6-a5ae-77f0949085af
+      authority: https://login.microsoftonline.com/f7619355-6c67-4100-9a78-1847f30742e2/v2.0/
+      response_type: code
+      popup_redirect_uri: https://datacatalog.{{ .Values.ingress.host }}/obo-login
+      scope: https://storage.azure.com/user_impersonation
+
+ingress:
+  enabled: false
+
+janus:
+  enabled: true
+  host: datacatalog.{{ .Values.ingress.host }}
+  certmanagerIssuer:
+    name: {{ .Values.ingress.certmanagerissuer | quote }}
+    kind: ClusterIssuer
+
+  ingressRoutes:
+    - name: datacatalog-frontend
+      entryPoints:
+        - websecure
+      routes:
+        - kind: Rule
+          match:
+          services:
+            - name: datacatalog-frontend-{{ .Values.nameSuffix }}-svc
+              port: 80
+      certificate:
+        enabled: false
+
+
+lethe:
+  enabled: true
+  secretStores:
+    - name: dataplatform-ss
+      providers:
+        vault:
+          server: "{{ .Values.vaultServer }}"
+          path: datacatalog-frontend/{{ .Values.nameSuffix }}
+          version: "v2"
+          auth:
+            # Authenticate against Vault using a Kubernetes ServiceAccount
+            # token stored in a Secret.
+            # https://www.vaultproject.io/docs/auth/kubernetes
+            kubernetes:
+              # Path where the Kubernetes authentication backend is mounted in Vault
+              mountPath: "kubernetes-{{ .Values.nameSuffix }}"
+              # A required field containing the Vault Role to assume.
+              role: datacatalog-frontend-{{ .Values.nameSuffix }}-reader
+
+  secrets:
+    - name: datacatalog-energinet-crt-es
+      secretStore:
+        backend: dataplatform-ss
+        kind: SecretStore
+      target:
+        name: datacatalog-frontend-crt
+        template:
+          type: kubernetes.io/tls
+          data:
+            tls.crt: "{{`{{ .crt | toString }}`}}"
+            tls.key: "{{`{{ .key | toString }}`}}"
+      data:
+        - secretKey: crt
+          remoteRef:
+            key: certificate
+            property: crt
+        - secretKey: key
+          remoteRef:
+            key: certificate
+            property: key

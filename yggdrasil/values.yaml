@@ -32,7 +32,7 @@ applications:
 
   # Data catalog
   datacatalog-secrets: true
-  datacatalog-frontend: false
+  datacatalog-frontend: true
   datacatalog-backend: true
 
   # Transformations
