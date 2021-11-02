@@ -52,11 +52,11 @@ janus:
             - name: datacatalog-frontend-{{ .Values.nameSuffix }}-svc
               port: 80
       certificate:
-        enabled: false
+        enabled: true
 
 
 lethe:
-  enabled: true
+  enabled: false
   secretStores:
     - name: dataplatform-ss
       providers:
