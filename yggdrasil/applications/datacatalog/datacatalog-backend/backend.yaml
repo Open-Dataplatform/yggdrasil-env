@@ -74,14 +74,14 @@ janus:
 lethe:
   enabled: true
   secretStores:
-    - name: datacatalog-api-migration-ss
+    - name: datacatalog-api-migration-{{ .Values.nameSuffix }}-ss
       annotations:
         "helm.sh/hook": pre-install,pre-upgrade
         "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
       providers:
         vault:
           server: "{{ .Values.vaultServer }}"
-          path: "datacatalog-api"
+          path: "datacatalog-api/{{ .Values.nameSuffix }}"
           version: "v2"
           auth:
             # Authenticate against Vault using a Kubernetes ServiceAccount
@@ -92,11 +92,11 @@ lethe:
               mountPath: "kubernetes-{{ .Values.nameSuffix }}"
               # A required field containing the Vault Role to assume.
               role: "datacatalog-api-{{ .Values.nameSuffix }}-reader"
-    - name: datacatalog-api-ss
+    - name: datacatalog-api-{{ .Values.nameSuffix }}-ss
       providers:
         vault:
           server: "{{ .Values.vaultServer }}"
-          path: "datacatalog-api-{{ .Values.nameSuffix }}"
+          path: "datacatalog-api/{{ .Values.nameSuffix }}"
           version: "v2"
           auth:
             # Authenticate against Vault using a Kubernetes ServiceAccount
@@ -109,7 +109,7 @@ lethe:
               role: "datacatalog-api-{{ .Values.nameSuffix }}-reader"
 
   secrets:
-    - name: datacatalog-api-migration-es
+    - name: datacatalog-api-migration-{{ .Values.nameSuffix }}-es
       annotations:
         "helm.sh/hook": pre-install,pre-upgrade
         "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
@@ -129,55 +129,9 @@ lethe:
       data:
         - secretKey: connection_string
           remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
+            key: credentials
             property: connection_string
-    - name: datacatalog-api-drm-es
-      secretStore:
-        backend: datacatalog-api-ss
-        kind: SecretStore
-      target:
-        name: datacatalog-api-drm-{{ .Values.nameSuffix }}-secret
-        template:
-          data:
-            appsettings.secrets.json: |
-              {
-                "GroupManagementClientId": "{{`{{ .group_management_client_id | toString }}`}}",
-                "GroupManagementClientSecret": "{{`{{ .group_management_client_secret | toString }}`}}",
-                "DataLakeClientId": "{{`{{ .data_lake_client_id | toString }}`}}",
-                "DataLakeClientSecret": "{{`{{ .data_lake_client_secret | toString }}`}}",
-                "ConnectionStrings": {
-                  "DataCatalog": "{{`{{ .connection_string | toString }}`}}"
-                },
-                "AzureAd": {
-                  "TenantId": "{{`{{ .tenant_id | toString }}`}}"
-                }
-              }
-      data:
-        - secretKey: connection_string
-          remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
-            property: connection_string
-        - secretKey: data_lake_client_id
-          remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
-            property: data_lake_client_id
-        - secretKey: data_lake_client_secret
-          remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
-            property: data_lake_client_secret
-        - secretKey: group_management_client_id
-          remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
-            property: group_management_client_id
-        - secretKey: group_management_client_secret
-          remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
-            property: group_management_client_secret
-        - secretKey: tenant_id
-          remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
-            property: tenant_id
-    - name: datacatalog-api-es
+    - name: datacatalog-api-{{ .Values.nameSuffix }}-es
       secretStore:
         backend: datacatalog-api-ss
         kind: SecretStore
@@ -201,25 +155,25 @@ lethe:
       data:
         - secretKey: connection_string
           remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
+            key: credentials
             property: connection_string
         - secretKey: data_lake_client_id
           remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
+            key: credentials
             property: data_lake_client_id
         - secretKey: data_lake_client_secret
           remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
+            key: credentials
             property: data_lake_client_secret
         - secretKey: group_management_client_id
           remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
+            key: credentials
             property: group_management_client_id
         - secretKey: group_management_client_secret
           remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
+            key: credentials
             property: group_management_client_secret
         - secretKey: tenant_id
           remoteRef:
-            key: {{ .Values.nameSuffix }}/credentials
+            key: credentials
             property: tenant_id
