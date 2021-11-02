@@ -42,6 +42,15 @@ job:
   env:
     "ASPNETCORE_ENVIRONMENT": "{{ .Values.nameSuffix }}"
 
+  volumes:
+    - name: migration-secret
+      secret:
+        secretName: datacatalog-api-migration-{{ .Values.nameSuffix }}-secret
+  volumeMounts: []
+    - name: migration-secret
+      mountPath: "/vault/secrets"
+      readOnly: true
+
 janus:
   enabled: true
   host: datacatalog-backend.{{ .Values.ingress.host }}
