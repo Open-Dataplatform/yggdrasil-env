@@ -18,7 +18,7 @@ apps:
   - name: datacatalog-frontend
     source:
       repoURL: "https://github.com/Open-Dataplatform/datacatalog-frontend"
-      targetRevision: main
+      targetRevision: feature/image-pull-sec
       path: "chart"
       valuesFile: "frontend.yaml"
   - name: datacatalog-backend
