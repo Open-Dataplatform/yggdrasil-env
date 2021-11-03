@@ -8,9 +8,9 @@ project:
     - '*'
   destinations:
   - namespace: argo-events
-    server: https://env-ps-test-d3cc7d1a.hcp.westeurope.azmk8s.io:443
+    server: https://env-ps-test-d3cc7d1a.hcp.westeurope.azmk8s.io/
   - namespace: transformations
-    server: https://env-ps-test-d3cc7d1a.hcp.westeurope.azmk8s.io:443
+    server: https://env-ps-test-d3cc7d1a.hcp.westeurope.azmk8s.io/
 
 apps:
   - name: argo-workflows
