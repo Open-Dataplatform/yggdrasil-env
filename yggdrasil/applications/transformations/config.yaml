@@ -2,6 +2,9 @@ name: transformations
 clusterService: false
 namespace: transformations
 description: transformations
+labels:
+  app-type: transformations
+  app-group: applications
 
 apps:
   - name: transformations-secrets
