@@ -8,11 +8,11 @@ sourceRepos:
 # Only permit applications to deploy to the guestbook namespace in the same cluster
 destinations:
   - namespace: networking
-    server: {{ printf "%s%s" (.Values.destinationServer | trimSuffix ":443") "/"}}
+    server: {{ .Values.destinationServer }}
   - namespace: kube-system
-    server: {{ printf "%s%s" (.Values.destinationServer | trimSuffix ":443") "/"}}
+    server: {{ .Values.destinationServer }}
   - namespace: nidhogg
-    server: {{ printf "%s%s" (.Values.destinationServer | trimSuffix ":443") "/"}}
+    server: {{ .Values.destinationServer }}
 
 
 # Deny all cluster-scoped resources from being created, except for Namespace
