@@ -4,7 +4,7 @@ nameSuffix: dev
 vaultServer: <vault-server>
 lokiServer: <loki-server>
 
-destinationServer: <dest-server>
+destinationServer: localhost:443
 
 ingress:
   host: <host>

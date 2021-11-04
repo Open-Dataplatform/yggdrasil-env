@@ -3,11 +3,6 @@ clusterService: false
 namespace: datacatalog
 description: datacatalog
 
-project:
-  name: datacatalog
-  sourceRepos:
-    - '*'
-
 apps:
   - name: datacatalog-secrets
     source:

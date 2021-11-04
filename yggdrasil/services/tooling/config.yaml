@@ -2,16 +2,6 @@ name: tooling
 namespace: tooling
 description: Tooling services Argo WF, Harbor.
 
-project:
-  name: tooling
-  sourceRepos:
-    - '*'
-  destinations:
-  - namespace: argo-events
-    server: https://env-ps-test-d3cc7d1a.hcp.westeurope.azmk8s.io/
-  - namespace: transformations
-    server: https://env-ps-test-d3cc7d1a.hcp.westeurope.azmk8s.io/
-
 apps:
   - name: argo-workflows
     source:

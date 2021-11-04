@@ -3,11 +3,6 @@ clusterService: false
 namespace: argo-events
 description: Argo events setup
 
-project:
-  name: argo-events-setup
-  sourceRepos:
-    - '*'
-
 apps:
   - name: argo-events-azure
     source:

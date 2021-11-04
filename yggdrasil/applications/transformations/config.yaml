@@ -3,11 +3,6 @@ clusterService: false
 namespace: transformations
 description: transformations
 
-project:
-  name: transformations
-  sourceRepos:
-    - '*'
-
 apps:
   - name: transformations-secrets
     source:

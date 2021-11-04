@@ -2,16 +2,6 @@ name: networking
 namespace: networking
 description: networking services like ingress, cert-manager.
 
-project:
-  name: networking
-  sourceRepos:
-    - '*'
-  destinations:
-    - namespace: kube-system
-      server: https://env-ps-test-d3cc7d1a.hcp.westeurope.azmk8s.io/
-    - namespace: nidhogg
-      server: https://env-ps-test-d3cc7d1a.hcp.westeurope.azmk8s.io/
-
 apps:
   - name: traefik
     source:
