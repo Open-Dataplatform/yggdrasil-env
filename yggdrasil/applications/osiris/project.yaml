@@ -1,5 +1,5 @@
 # Project description
-description: Project for all tools
+description: Project for all osiris
 
 # Allow manifests to deploy from any Git repos
 sourceRepos:

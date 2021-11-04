@@ -1,9 +1,9 @@
-name: datacatalog
+name: osiris
 clusterService: false
-namespace: datacatalog
-description: datacatalog
+namespace: osiris
+description: osiris
 labels:
-  app-type: datacatalog
+  app-type: osiris
   app-group: applications
 
 apps:
