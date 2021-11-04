@@ -38,7 +38,7 @@ applications:
   # Osiris
   osiris-secrets: true
   osiris-ingress: true
-  osiris-egress: false
+  osiris-egress: true
 
   # Transformations
   t-i2et-sf6: true

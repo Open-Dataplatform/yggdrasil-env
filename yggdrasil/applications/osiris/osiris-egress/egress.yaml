@@ -1,0 +1,96 @@
+appName: osiris-egress-{{ .Values.nameSuffix }}
+deployment:
+  annotations:
+    sidecar.jaegertracing.io/inject: "true"
+
+  revisionHistoryLimit: 5
+  replicas: 1
+
+  nodeSelector:
+    agentpool: worker
+
+  imagePullSecrets: []
+    # - name: image-pull-sec
+
+  image:
+    repository: service-dp.westeurope.cloudapp.azure.com/osiris-egress-api/osiris-egress-api
+    tag: 6a0c7e7
+
+  livenessProbe:
+    path: /
+    initialDelaySeconds: 15
+    timeoutSeconds: 2
+    periodSeconds: 60
+  readinessProbe:
+    path: /
+    initialDelaySeconds: 15
+    timeoutSeconds: 2
+    periodSeconds: 30
+
+service:
+  type: ClusterIP
+  annotations:
+   prometheus.io/scrape: "true"
+   # prometheus.io/path: /metrics
+   prometheus.io/port: "80"
+
+ingress:
+  enabled: false
+
+config:
+  conf.ini: |
+    [Logging]
+    configuration_file = /etc/osiris/log.conf
+
+    [FastAPI]
+    root_path = /osiris-egress
+
+    [Cors]
+    origins = https://dataplatform-test.energinet.dk,http://localhost:4200
+    methods = POST,GET
+    headers = *
+
+    [Azure Storage]
+    account_url = https://dpcontentstorage{{ .Values.nameSuffix }}.dfs.core.windows.net/
+    filesystem_name = datasets
+
+    [Azure Authentication]
+    tenant_id = f7619355-6c67-4100-9a78-1847f30742e2
+
+    [Jaeger Agent]
+    reporting_host = localhost
+    reporting_port = localhost
+
+    [JAO]
+    yearly_guid = 2d20ccdc-d9f3-4a99-a7a9-08d91a00b8e7
+    monthly_guid = 48c22d75-940a-41e9-adff-08d8fda4ba53
+
+    [iKontrol]
+    guid = 31035e7e-7240-4e5d-9bea-08d90a4e650d
+
+    [Oilcable]
+    pt1m_guid = 2f8013e2-b2d7-4b0c-ae56-08d9221a4041
+    pt24h_guid = 006a79e2-f925-4b1a-ae57-08d9221a4041
+    leakprop_guid = 18960ff2-f73d-4ee0-ae5b-08d9221a4041
+
+    [DMI]
+    guid = 1bf31823-4e55-4956-88cc-08d9834acce7
+
+    [Dataset Config]
+    # DMI
+    1bf31823-4e55-4956-88cc-08d9834acce7 = {"index": "Date", "horizon": "MONTH"}
+    # GTMS
+    acf37e60-b475-4c0e-3490-08d9616ec5b4 = {"index": "GASDAY", "horizon": "DAY"}
+    # DataHub BI
+    126e420b-bf9d-4258-5327-08d98cbbc944 = {"index": "TimestampUTC", "horizon": "DAY"}
+    b3999bc7-e09c-4437-b5ad-08d993034ae4 = {"index": "TimestampUTC", "horizon": "DAY"}
+    06b9f21a-595f-4bcf-6787-08d98e270f50 = {"index": "TimestampUTC", "horizon": "DAY"}
+    # Neptun masterdata
+    d3626d4a-3bfe-448a-5325-08d98cbbc944 = {"index": "", "horizon": "NONE"}
+    # Balance Universe
+    cb142052-e8a3-4957-e998-08d9985e312b = {"index": "DATE_FROM", "horizon": "DAY"}
+    7ad9987b-a205-4b6e-e994-08d9985e312b = {"index": "PeriodUTC", "horizon": "DAY"}
+
+    [jwt]
+    public_secret = l3sQ-50cCH4xBVZLHTGwnSR7680
+    ALGORITHM = RS256
