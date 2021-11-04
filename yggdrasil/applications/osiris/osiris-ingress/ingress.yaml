@@ -31,7 +31,7 @@ config:
     [Logging]
     configuration_file = /etc/osiris/log.conf
     [FastAPI]
-    root_path = /osiris-ingress
+    root_path = /
     [Azure Storage]
     account_url = https://dpcontentstorage{{ .Values.nameSuffix }}.dfs.core.windows.net/
     filesystem_name = datasets
