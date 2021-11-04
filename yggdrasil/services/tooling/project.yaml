@@ -9,9 +9,9 @@ sourceRepos:
 destinations:
   - namespace: tooling
     server: {{ .Values.destinationServer }}
-  - namespace: {{ template "helper.name" (dict "context" . "name" "argo-events" ) }}
+  - namespace: argo-events
     server: {{ .Values.destinationServer }}
-  - namespace: {{ template "helper.name" (dict "context" . "name" "transformations" ) }}
+  - namespace: transformations
     server: {{ .Values.destinationServer }}
 
 

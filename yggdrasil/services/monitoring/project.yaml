@@ -7,7 +7,7 @@ sourceRepos:
 
 # Only permit applications to deploy to the guestbook namespace in the same cluster
 destinations:
-  - namespace: {{ template "helper.name" (dict "context" . "name" "monitoring" ) }}
+  - namespace: monitoring
     server: {{ .Values.destinationServer }}
   - namespace: kube-system
     server: {{ .Values.destinationServer }}
