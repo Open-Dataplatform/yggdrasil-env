@@ -94,3 +94,23 @@ config:
     [jwt]
     public_secret = l3sQ-50cCH4xBVZLHTGwnSR7680
     ALGORITHM = RS256
+
+janus:
+  enabled: true
+  host: osiris-egress.{{ .Values.ingress.host }}
+  certmanagerIssuer:
+    name: {{ .Values.ingress.certmanagerissuer | quote }}
+    kind: ClusterIssuer
+
+  ingressRoutes:
+    - name: osiris-egress
+      entryPoints:
+        - websecure
+      routes:
+        - kind: Rule
+          match:
+          services:
+            - name: osiris-egress-{{ .Values.nameSuffix }}-svc
+              port: 80
+      certificate:
+        enabled: true
