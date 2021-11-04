@@ -12,7 +12,7 @@ deployment:
 
   dynamicEnvironment:
     base: https://datacatalog-backend.{{ .Values.ingress.host }}
-    egressBase: https://dp-test.westeurope.cloudapp.azure.com/osiris-egress/v1
+    egressBase: https://dp-{{ .Values.nameSuffix }}.westeurope.cloudapp.azure.com/osiris-egress/v1
     production: false
     oidcSettings:
       client_id: dde8fe45-c9e2-4a67-a55f-97791ddc49ba
