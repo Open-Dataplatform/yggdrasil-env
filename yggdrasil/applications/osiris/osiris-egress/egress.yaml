@@ -43,7 +43,7 @@ config:
     configuration_file = /etc/osiris/log.conf
 
     [FastAPI]
-    root_path = /osiris-egress
+    root_path = /
 
     [Cors]
     origins = https://dataplatform-test.energinet.dk,http://localhost:4200
