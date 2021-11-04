@@ -1,0 +1,95 @@
+appName: osiris-ingress-{{ .Values.nameSuffix }}
+
+deployment:
+  annotations: {}
+    # sidecar.jaegertracing.io/inject: "true"
+  replicas: 1
+  revisionHistoryLimit: 5
+  nodeSelector:
+    agentpool: worker
+  image:
+    repository: service-dp.westeurope.cloudapp.azure.com/osiris-ingress-api/osiris-ingress-api
+    tag: latest
+  livenessProbe:
+    path: /
+    initialDelaySeconds: 15
+    timeoutSeconds: 2
+    periodSeconds: 60
+  readinessProbe:
+    path: /
+    initialDelaySeconds: 15
+    timeoutSeconds: 2
+    periodSeconds: 30
+
+service:
+  type: ClusterIP
+  annotations:
+   prometheus.io/scrape: "true"
+   # prometheus.io/path: /metrics
+   # prometheus.io/port: 9102
+
+
+ingress:
+  enabled: false
+
+config:
+  conf.ini: |
+    [Logging]
+    configuration_file = /etc/osiris/log.conf
+    [FastAPI]
+    root_path = /osiris-ingress
+    [Azure Storage]
+    account_url = https://dpcontentstorage{{ .Values.nameSuffix }}.dfs.core.windows.net/
+    filesystem_name = datasets
+    [jwt]
+    public_secret = l3sQ-50cCH4xBVZLHTGwnSR7680
+    ALGORITHM = RS256
+
+  log.conf: |
+    [loggers]
+    keys=root,main
+    [handlers]
+    keys=consoleHandler,fileHandler
+    [formatters]
+    keys=fileFormatter,consoleFormatter
+    [logger_root]
+    level=ERROR
+    handlers=consoleHandler
+    [logger_main]
+    level=ERROR
+    handlers=consoleHandler
+    qualname=main
+    propagate=0
+    [handler_consoleHandler]
+    class=StreamHandler
+    formatter=consoleFormatter
+    args=(sys.stdout,)
+    [handler_fileHandler]
+    class=FileHandler
+    formatter=fileFormatter
+    args=('logfile.log',)
+    [formatter_fileFormatter]
+    format=%(asctime)s - %(name)s - %(levelname)s - %(message)s
+    datefmt=
+    [formatter_consoleFormatter]
+    format=%(levelname)s: %(name)s - %(message)s
+
+janus:
+  enabled: true
+  host: osiris-ingress.{{ .Values.ingress.host }}
+  certmanagerIssuer:
+    name: {{ .Values.ingress.certmanagerissuer | quote }}
+    kind: ClusterIssuer
+
+  ingressRoutes:
+    - name: osiris-ingress
+      entryPoints:
+        - websecure
+      routes:
+        - kind: Rule
+          match:
+          services:
+            - name: osiris-ingress-{{ .Values.nameSuffix }}-svc
+              port: 80
+      certificate:
+        enabled: true
