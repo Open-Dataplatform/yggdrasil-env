@@ -55,7 +55,7 @@ job:
     repository: serviceacrps.azurecr.io/datacatalog-backend-migration
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: 3fb47d1
+    tag: 1fae419
 
   env:
     "ASPNETCORE_ENVIRONMENT": "{{ .Values.nameSuffix }}"

@@ -8,7 +8,7 @@ deployment:
     - name: image-pull-sec
   image:
     repository: serviceacrps.azurecr.io/datacatalog-frontend
-    tag: c01f7c0
+    tag: 247be6e
 
   dynamicEnvironment:
     base: https://datacatalog-backend.{{ .Values.ingress.host }}
