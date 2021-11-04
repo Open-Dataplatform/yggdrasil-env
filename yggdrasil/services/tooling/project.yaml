@@ -7,11 +7,11 @@ sourceRepos:
 
 # Only permit applications to deploy to the guestbook namespace in the same cluster
 destinations:
-  - namespace: {{ template "helper.name" (dict "context" $root "name" "tooling" ) }}
+  - namespace: {{ template "helper.name" (dict "context" . "name" "tooling" ) }}
     server: {{ .Values.destinationServer }}
-  - namespace: {{ template "helper.name" (dict "context" $root "name" "argo-events" ) }}
+  - namespace: {{ template "helper.name" (dict "context" . "name" "argo-events" ) }}
     server: {{ .Values.destinationServer }}
-  - namespace: {{ template "helper.name" (dict "context" $root "name" "transformations" ) }}
+  - namespace: {{ template "helper.name" (dict "context" . "name" "transformations" ) }}
     server: {{ .Values.destinationServer }}
 
 

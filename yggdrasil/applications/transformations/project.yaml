@@ -7,7 +7,7 @@ sourceRepos:
 
 # Only permit applications to deploy to the guestbook namespace in the same cluster
 destinations:
-  - namespace: transformations
+  - namespace: {{ template "helper.name" (dict "context" . "name" "transformation" ) }}
     server: {{ .Values.destinationServer }}
 
 
