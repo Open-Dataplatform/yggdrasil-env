@@ -1,0 +1,21 @@
+name: datacatalog
+clusterService: false
+namespace: datacatalog
+description: datacatalog
+labels:
+  app-type: datacatalog
+  app-group: applications
+
+apps:
+  - name: osiris-secrets
+    source:
+      repoURL: "https://open-olympus-project.github.io/repo-helm"
+      targetRevision: 0.1.3
+      chart: "lethe"
+      valuesFile: "lethe.yaml"
+  - name: osiris-ingress
+    source:
+      repoURL: "https://github.com/Open-Dataplatform/osiris-ingress-api"
+      targetRevision: feature/ygg-migration
+      path: "chart"
+      valuesFile: "ingress.yaml"
