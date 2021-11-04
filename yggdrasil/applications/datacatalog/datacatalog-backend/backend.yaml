@@ -10,7 +10,7 @@ apiDeployment:
   #   agentpool: worker
   image:
     repository: serviceacrps.azurecr.io/datacatalog-backend
-    tag: 3fb47d1
+    tag: 1fae419
   env:
     "ASPNETCORE_ENVIRONMENT": "{{ .Values.nameSuffix }}"
     "ContactInfo__Name": "Data Stewards"
@@ -34,7 +34,7 @@ drmDeployment:
   #   agentpool: worker
   image:
     repository: serviceacrps.azurecr.io/datacatalog-backend-drm
-    tag: 3fb47d1
+    tag: 1fae419
   env:
     "ASPNETCORE_ENVIRONMENT": "{{ .Values.nameSuffix }}"
 
