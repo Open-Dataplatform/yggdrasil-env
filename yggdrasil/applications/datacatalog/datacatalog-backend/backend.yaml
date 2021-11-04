@@ -30,8 +30,8 @@ drmDeployment:
   imagePullSecrets:
     - name: image-pull-sec
   replicaCount: 1
-  # nodeSelector:
-  #   agentpool: worker
+  nodeSelector:
+    agentpool: worker
   image:
     repository: serviceacrps.azurecr.io/datacatalog-backend-drm
     tag: 1fae419

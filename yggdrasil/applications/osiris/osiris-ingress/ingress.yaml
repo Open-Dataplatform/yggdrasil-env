@@ -9,6 +9,8 @@ deployment:
   nodeSelector:
     agentpool: worker
 
+  imagePullSecrets: []
+    # - name: image-pull-sec
   image:
     repository: service-dp.westeurope.cloudapp.azure.com/osiris-ingress-api/osiris-ingress-api
     tag: 0dde000

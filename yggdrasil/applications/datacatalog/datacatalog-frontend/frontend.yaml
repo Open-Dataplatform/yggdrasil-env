@@ -4,6 +4,8 @@ environment: {{ .Values.nameSuffix }}
 
 deployment:
   replicaCount: 1
+  nodeSelector:
+    agentpool: worker
   imagePullSecrets:
     - name: image-pull-sec
   image:

@@ -45,8 +45,8 @@ workflowTemplate:
   parallelism: 1
 
   # NodeSelector is a selector which will result in all pods of the workflow to be scheduled on the selected node(s).
-  nodeSelector: {}
-    # agentpool: worker
+  nodeSelector:
+    agentpool: worker
 
 # determins the state of the jeager sidecar
 jaeger:
