@@ -5,21 +5,13 @@ deployment:
     # sidecar.jaegertracing.io/inject: "true"
   replicas: 1
   revisionHistoryLimit: 5
+
   nodeSelector:
     agentpool: worker
+
   image:
     repository: service-dp.westeurope.cloudapp.azure.com/osiris-ingress-api/osiris-ingress-api
-    tag: latest
-  livenessProbe:
-    path: /
-    initialDelaySeconds: 15
-    timeoutSeconds: 2
-    periodSeconds: 60
-  readinessProbe:
-    path: /
-    initialDelaySeconds: 15
-    timeoutSeconds: 2
-    periodSeconds: 30
+    tag: 0dde000
 
 service:
   type: ClusterIP
