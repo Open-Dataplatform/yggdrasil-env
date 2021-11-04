@@ -35,6 +35,11 @@ applications:
   datacatalog-frontend: true
   datacatalog-backend: true
 
+  # Osiris
+  osiris-secrets: true
+  osiris-ingress: true
+  osiris-egress: false
+
   # Transformations
   t-i2et-sf6: true
   transformations-secrets: true
