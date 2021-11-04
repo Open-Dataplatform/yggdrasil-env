@@ -19,3 +19,9 @@ apps:
       targetRevision: feature/ygg-migration
       path: "chart"
       valuesFile: "ingress.yaml"
+  - name: osiris-egress
+    source:
+      repoURL: "https://github.com/Open-Dataplatform/osiris-egress-api"
+      targetRevision: feature/ygg-migration
+      path: "chart"
+      valuesFile: "egress.yaml"
