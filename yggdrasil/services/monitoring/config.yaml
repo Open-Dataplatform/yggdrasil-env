@@ -1,14 +1,9 @@
 name: monitoring
 namespace: monitoring
 description: All the monitoring apps, including but not limited to prometheus, grafana, thanos, loki.
-
-project:
-  name: monitoring
-  sourceRepos:
-    - '*'
-  destinations:
-    - namespace: kube-system
-      server: https://env-ps-test-d3cc7d1a.hcp.westeurope.azmk8s.io/
+labels:
+  app-type: monitoring
+  app-group: services
 
 apps:
   - name: prometheus

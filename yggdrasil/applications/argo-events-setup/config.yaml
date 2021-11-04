@@ -2,6 +2,9 @@ name: argo-events-setup
 clusterService: false
 namespace: argo-events
 description: Argo events setup
+labels:
+  app-type: argo-events-setup
+  app-group: applications
 
 apps:
   - name: argo-events-azure

@@ -1,6 +1,9 @@
 name: networking
 namespace: networking
 description: networking services like ingress, cert-manager.
+labels:
+  app-type: networking
+  app-group: services
 
 apps:
   - name: traefik

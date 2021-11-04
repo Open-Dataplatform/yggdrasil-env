@@ -1,6 +1,9 @@
 name: tooling
 namespace: tooling
 description: Tooling services Argo WF, Harbor.
+labels:
+  app-type: tooling
+  app-group: services
 
 apps:
   - name: argo-workflows

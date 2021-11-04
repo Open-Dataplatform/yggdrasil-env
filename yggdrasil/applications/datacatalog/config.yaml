@@ -2,6 +2,9 @@ name: datacatalog
 clusterService: false
 namespace: datacatalog
 description: datacatalog
+labels:
+  app-type: datacatalog
+  app-group: applications
 
 apps:
   - name: datacatalog-secrets
