@@ -1,0 +1,21 @@
+name: adapters
+clusterService: false
+namespace: adapters
+description: adapters
+labels:
+  app-type: adapters
+  app-group: applications
+
+apps:
+  - name: adapters-secrets
+    source:
+      repoURL: "https://open-olympus-project.github.io/repo-helm"
+      targetRevision: 0.1.3
+      chart: "lethe"
+      valuesFile: "lethe.yaml"
+  - name: a-ikontrol
+    source:
+      repoURL: "https://open-dataplatform.github.io/osiris-helm/"
+      targetRevision: 0.1.12
+      chart: "osiris-scheduler"
+      valuesFile: "a-ikontrol.yaml"
