@@ -5,7 +5,6 @@
 - [Yggdrasil](#yggdrasil)
   * [Principles](#principles)
     + [Application repository](#application-repository)
-    + [Environment repository](#environment-repository)
     + [Yggdrasil](#yggdrasil-1)
     + [Application and service](#application-and-service)
   * [Charts in Yggdrasil](#charts-in-yggdrasil)
@@ -15,12 +14,15 @@
 - [How to create your own cluster](#how-to-create-your-own-cluster)
     + [Cluster specific values](#cluster-specific-values)
 - [How to add an application](#how-to-add-an-application)
-    + [Step one](#step-one)
-    + [Step two](#step-two)
+  * [Step one](#step-one)
+  * [Step two](#step-two)
     + [Values file](#values-file)
-    + [Defining a project](#defining-a-project)
-    + [Network policies](#network-policies)
-    + [Resource-quota](#resource-quota)
+- [examples](#examples)
+  * [config.yaml](#configyaml)
+  * [project.yaml](#projectyaml)
+  * [network-policy.yaml](#network-policyyaml)
+  * [resource-quota.yaml](#resource-quotayaml)
+  * [The last step](#the-last-step)
 - [Installing chart](#installing-chart)
   * [Manual setup](#manual-setup)
     + [Minio setup for argocd](#minio-setup-for-argocd)
@@ -35,9 +37,6 @@ When deciding on a workflow for deploying new applications and maintaining runni
 
 ### Application repository
 The application repository contains the source code of the application and the deployment manifests to deploy the application.
-
-### Environment repository
-The environment repository contains all deployment manifests of the currently desired infrastructure of an deployment environment. It describes what applications and infrastructural services should run with what configuration and version in the deployment environment.
 
 ### Yggdrasil
 The cluster environment repository contains the configurations for each application on the cluster. It describes the names, namespaces, sources and destinations of any application that is running on the cluster.
@@ -81,11 +80,56 @@ In the next section, it will be described how to create the config and values fi
 The workflow for deploying applications on the cluster is shown in the image below.
 <img src="docs/images/newWorkflow.png">
 
-### Step one
+## Step one
 The developers of either a 3rd party application or the maintainers of the cluster should create a new application reposity that contains the code for their app. When this code is committed, it should trigger a build pipeline that will update the artifact repository. After this, the environment repository will need to be either manually or automatically updates to reflect the new artifacts.
 
-### Step two
+## Step two
 Now that the application is created, the developers needs to create a pull request to Yggdrasil. Depending on if it is a service or an application, it should be in the correct folder. This pull request should add two files to a new folder in either the services or applications subdirectories. These files should be called `config.yaml` and `<nameofapp>/<valueFile>.yaml`:
+
+### Values file
+Each appilcation also has to have a values file, the values file has to live in a folder which has the same name as the application in the `config.yaml` it relates to.
+
+folder structure:
+```
+yggdrasil
+├── Chart.yaml
+├── applications
+│   ├── <ApplicationName>
+│   │   ├── config.yaml
+│   │   ├── project.yaml
+│   │   └── <appName> # name of the application defined the config.yaml
+│   │       └── <valuesFile>.yaml
+│   └── transformations
+│       ├── config.yaml
+│       ├── project.yaml
+│       └── t-i2et-sf6
+│           └── t-i2et-sf6.yaml
+├── services
+│   ├── monitoring
+│   │   ├── config.yaml
+│   │   ├── project.yaml
+│   │   └── prometheus
+│   │       └── prometheus.yaml
+│   └── tooling
+│       ├── argo-workflows
+│       │   └── argowf.yaml
+│       ├── config.yaml
+│       └── project.yaml
+├── templates
+│   ├── application.yaml
+│   └── project.yaml
+└── values.yaml
+```
+# examples
+
+## config.yaml
+
+Yggdrasil I build with the config files that allows you to define multiple application sources in one place this allows you to have greater control over orginzation of your application.
+
+Tha config file is placed under `yggdrasil/(applications|services)/<appType>/config.yaml`<br>
+The appType represents the collective function of all the apps within that folder, f.eks. `services/monitoring` contains all monitoring services and a config.yaml file that lists all the sources.
+
+A config file typically lives with a project.yaml file also.
 
 An example of the config.yaml is seen here:
 
@@ -131,45 +175,13 @@ apps:
       valuesFile: "<valuesFile>.yaml"
 ```
 
-### Values file
-Each appilcation also has to have a values file, the values file has to live in a folder which has the same name as the application in the `config.yaml` it relates to.
-
-folder structure:
-```
-yggdrasil
-├── Chart.yaml
-├── applications
-│   ├── <ApplicationName>
-│   │   ├── config.yaml
-│   │   ├── project.yaml
-│   │   └── <appName> # name of the application defined the config.yaml
-│   │       └── <valuesFile>.yaml
-│   └── transformations
-│       ├── config.yaml
-│       ├── project.yaml
-│       └── t-i2et-sf6
-│           └── t-i2et-sf6.yaml
-├── services
-│   ├── monitoring
-│   │   ├── config.yaml
-│   │   ├── project.yaml
-│   │   └── prometheus
-│   │       └── prometheus.yaml
-│   └── tooling
-│       ├── argo-workflows
-│       │   └── argowf.yaml
-│       ├── config.yaml
-│       └── project.yaml
-├── templates
-│   ├── application.yaml
-│   └── project.yaml
-└── values.yaml
-```
-
-### Defining a project
+## project.yaml
 Next to the config.yaml file, every namespace should have a project definition. This is important because projects isolate namespaces and services from interfering with each other.
+
+This file takes the anything that fits into the spec of a [AppProject](https://argo-cd.readthedocs.io/en/latest/operator-manual/project.yaml)
+
 A project definition could look like this:
-``` yaml
+```yaml
 description: <name> Argo Project
 sourceRepos:
 - '*'
@@ -180,10 +192,13 @@ clusterResourceWhitelist:
 - group: '*'
   kind: 'Deployment'
 ```
-More options to configure the project can be found [here](https://argo-cd.readthedocs.io/en/latest/operator-manual/project.yaml).
 
-### Network policies
-Contributors should also define a networkPolicy and a resourceQuota for your namespace. These files should be placed next to the config.yaml and be called network-policy.yaml and resource-quota.yaml. It is only possible to include the `spec` part of these resources. A typical network-policy could look like this:
+## network-policy.yaml
+Contributors should also define a networkPolicy for your namespace. This file should be placed next to the config.yaml and be called network-policy.yaml.
+
+This file takes the anything that fits into the spec of a [NetworkPolicy](https://kubernetes.io/docs/concepts/services-networking/network-policies/#networkpolicy-resource)
+
+A typical `network-policy.yaml` could look like this:
 ``` yaml
 podSelector: {}
 policyTypes:
@@ -201,8 +216,12 @@ egress:
         space: service
 ```
 
-### Resource-quota
-A typical resource-quota could look like this:
+## resource-quota.yaml
+Contributors should also define a resource-quota for your namespace. This file should be placed next to the config.yaml and be called resource-quota.yaml.
+
+This file takes the anything that fits into the spec of a [resource-quota](ResourceQuota)
+
+A typical `resource-quota.yaml` could look like this:
 ``` yaml
 hard:
   requests.cpu: "8"
@@ -211,6 +230,7 @@ hard:
   limits.memory: 40Gi
 ```
 
+## The last step
 The last thing you need to do, after you've added an application to yggdrasil via the `config.yaml`, is to go to the [values.yaml](yggdrasil/values.yaml) and under the right "header" comment add the name of the app and the enabled status.
 
 The "headers" corresponds the the first folder in the applications folder that your app belongs to.
