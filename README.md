@@ -1,3 +1,5 @@
+[![Linting](https://github.com/Open-Dataplatform/yggdrasil-env/actions/workflows/lint-and-test.yaml/badge.svg)](https://github.com/Open-Dataplatform/yggdrasil-env/actions/workflows/lint-and-test.yaml)
+
 <img src="docs/images/Energinet-logo.png" width="250" style="margin-bottom: 3%">
 
 - [Yggdrasil](#yggdrasil)
