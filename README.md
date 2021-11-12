@@ -15,13 +15,14 @@
 - [How to add an application](#how-to-add-an-application)
     + [Step one](#step-one)
     + [Step two](#step-two)
-  * [Installing chart](#installing-chart)
+    + [Values file](#values-file)
+    + [Defining a project](#defining-a-project)
+    + [Network policies](#network-policies)
+    + [Resource-quota](#resource-quota)
+- [Installing chart](#installing-chart)
   * [Manual setup](#manual-setup)
-    + [ArgoCD admin password](#ArgoCD-admin-password)
-    + [Vault values](#vautl-values)
     + [Minio setup for argocd](#minio-setup-for-argocd)
-* [Testing using kind](#testing-using-kind)
-* [Known issues](#known-issues)
+- [Known issues](#known-issues)
 
 # Yggdrasil
 This is the repository for the cluster environment. It contains two Helm charts called Nidhogg and Yggdrasil.
@@ -81,104 +82,146 @@ The workflow for deploying applications on the cluster is shown in the image bel
 The developers of either a 3rd party application or the maintainers of the cluster should create a new application reposity that contains the code for their app. When this code is committed, it should trigger a build pipeline that will update the artifact repository. After this, the environment repository will need to be either manually or automatically updates to reflect the new artifacts.
 
 ### Step two
-Now that the application is created, the developers needs to create a pull request to Yggdrasil. Depending on if it is a service or an application, it should be in the correct folder. This pull request should add two files to a new folder in either the services or applications subdirectories. These files should be called config.yaml and <nameofapp>.yaml:
+Now that the application is created, the developers needs to create a pull request to Yggdrasil. Depending on if it is a service or an application, it should be in the correct folder. This pull request should add two files to a new folder in either the services or applications subdirectories. These files should be called `config.yaml` and `<nameofapp>/<valueFile>.yaml`:
 
 An example of the config.yaml is seen here:
 
-```
-name: <appname>
-# whether it is a cluster service
+``` yaml
+name: <appName>
 namespace: <namespace>
+# Optional
+# This determins the 'destination.server' and 'project.destination[0].server'
+# If this is not set they will default to 'https://kubernetes.default.svc'
+# If this is set - all apps in this config will be deployed to that server
+# A namespace will not be made by the lightvessel template
+# The syncOption createNamespace will be set to true
+destinationServer: <server>
 description: <description>
-
-project:
-  # name of argocd project
-  name: <projectName>
-  # default cluster is https://kubernetes.default.svc
-  server: <server>
-  # default source repo should be '*'
-  sourceRepos:
-    - '<sourceRepo>'
-  # if the project needs access to any namespace
-  destinations:
-    - namespace: <namespace>
-      server: <server>
-
+# Optional
+# Global labels - these will be set on all apps in the config
+# the label 'app: <appName>' is set by default
+namespaceLabels:
+  label1: label1
+labels:
+  label1: label1
 # This defines the applications that will be deployed.
 # It is a list in cause you would like to deploy multiple applications
 # to the same argocd project and namespace
 apps:
   - name: <applicationName>
-    ingressAnnotation:
-      traefik.ingress.kubernetes.io/router.entrypoints: <entrypoint>
-    ingress:
-      <applicationName>:
-        subDomain: <subdomain>
-        path: <path>
-        servicePort: <port>
-        serviceName: <ServiceNameOfPrometheusService>
+    # Optional
+    # App specific labels - these will only be set on that app
+    label:
+      <label1>: <label>
+    # Defines the source of the helm chart either a chart repo or a git repo
     source:
       repoURL: '<repoURL'
-      # standard targetRevision is HEAD
+      # For a git repo the Standard targetRevision is HEAD
+      # For a helm repo the targetRevision is the version of the chart you want
       targetRevision: <branch>
-      # path to Helm chart in repo. Should be . if Helm chart is in root.
+      # The path and chart key's cannot be used together
+      # Path to Helm chart in git repo. Should be . if Helm chart is in root
       path: <path>
-      # filename of values file that is local right next to this config.yaml file
-      valuesFile: "<valuesFile>"
+      # Incase the repoURL is a helm repo, you need to add this
+      chart: <chartName>
+      # Filename of values file that is local right next to this config.yaml file
+      valuesFile: "<valuesFile>.yaml"
 ```
 
-It is also possible to define a custom values file and place it in the same directory as the config.yaml. This values file should be named the same as the application it is providing the values for and then referenced in the config.yaml as you can see above. An example is given here:
+### Values file
+Each appilcation also has to have a values file, the values file has to live in a folder which has the same name as the application in the `config.yaml` it relates to.
 
+folder structure:
 ```
-name: <appName>
-otherValue: <myValue>
-project:
-  indentedValue: <indentedValue>
+yggdrasil
+├── Chart.yaml
+├── applications
+│   ├── <ApplicationName>
+│   │   ├── config.yaml
+│   │   ├── project.yaml
+│   │   └── <appName> # name of the application defined the config.yaml
+│   │       └── <valuesFile>.yaml
+│   └── transformations
+│       ├── config.yaml
+│       ├── project.yaml
+│       └── t-i2et-sf6
+│           └── t-i2et-sf6.yaml
+├── services
+│   ├── monitoring
+│   │   ├── config.yaml
+│   │   ├── project.yaml
+│   │   └── prometheus
+│   │       └── prometheus.yaml
+│   └── tooling
+│       ├── argo-workflows
+│       │   └── argowf.yaml
+│       ├── config.yaml
+│       └── project.yaml
+├── templates
+│   ├── application.yaml
+│   └── project.yaml
+└── values.yaml
 ```
 
-This PR will then need to be approved by the cluster development team, before it is merged into Yggdrasil. When this is merged, ArgoCD will automatically deploy the application onto the cluster.
+### Defining a project
+Next to the config.yaml file, every namespace should have a project definition. This is important because projects isolate namespaces and services from interfering with each other.
+A project definition could look like this:
+``` yaml
+description: <name> Argo Project
+sourceRepos:
+- '*'
+destinations:
+- namespace: <namespace>
+  server: https://kubernetes.default.svc
+clusterResourceWhitelist:
+- group: '*'
+  kind: 'Deployment'
+```
+More options to configure the project can be found [here](https://argo-cd.readthedocs.io/en/latest/operator-manual/project.yaml).
+
+### Network policies
+Contributors should also define a networkPolicy and a resourceQuota for your namespace. These files should be placed next to the config.yaml and be called network-policy.yaml and resource-quota.yaml. It is only possible to include the `spec` part of these resources. A typical network-policy could look like this:
+``` yaml
+podSelector: {}
+policyTypes:
+- Ingress
+- Egress
+ingress:
+- from:
+  - namespaceSelector:
+      matchLabels:
+        space: service
+egress:
+- to:
+  - namespaceSelector:
+      matchLabels:
+        space: service
+```
+
+### Resource-quota
+A typical resource-quota could look like this:
+``` yaml
+hard:
+  requests.cpu: "8"
+  requests.memory: 20Gi
+  limits.cpu: "16"
+  limits.memory: 40Gi
+```
+
+Example of these can also be found throughout the yggdrasil/services folder.
+
+A PR will then need to be approved by the cluster development team, before it is merged into Yggdrasil. When this is merged, ArgoCD will automatically deploy the application onto the cluster.
 When the deployment is done, ArgoCD will poll the environment repository every 3 minutes, to check for changes to the application.
 
-## Installing chart
-To install Yggdrasil, you first need to navigate to the nidhogg directory and run `helm dependency update`.
-Then, from the root directory of Yggdrasil, run the command `helm install --create-namespace -n yggdrasil nidhogg ./nidhogg`.
+# Installing chart
+Since this is build as an environment version of yggdrasil this does not need to be installed as a "normal" helm chart but rather it is designed to be an application inside of yggdrasil.
+
+To do this you just make the same steps as you do in the [How to add an application](#how-to-add-an-application) step.
+
+you would just add the yggdrasil path instead of installing nidhogg - since the idear is that the parent cluster's argocd service will maintain the applications in the yggdrasil environment.
 
 ## Manual setup
-
-### ArgoCD admin password
-There is the need of changing the admin password this will be used to make sure that it's not the default password and that ArgoCD is not generating the secret to store the initial admin password.
-<br>
-https://argo-cd.readthedocs.io/en/stable/getting_started/#4-login-using-the-cli
-
-So the repository includes a utility script for generating a random 64 char string and then bcrypt it since argocd requires the password to be bcrypted.<br>
-https://argo-cd.readthedocs.io/en/stable/faq/#i-forgot-the-admin-password-how-do-i-reset-it
-
-The bcrypted password should then be pasted into the nidhogg values file under `nidhogg.argocd.configs.secret.argocdServerAdminPassword`.
-<br>
-Then the `nidhogg.argocd.configs.secret.argocdServerAdminPasswordMTime` should be updated to the current time.
-
-OBS!<br>
-The non bcrypted password should then be added to the vault when that is ready.
-
-### Vault values
-There are some values needed in the Vault - the table below shows the information needed to configure the secret needed.<br>
-This can be done by using port-forwarding or the url used `service-vault-poc...`<br>
-The token used to login I located in the log of the vault-config job.
-
-| path | key | dummy value |
-|------|-----|-------------|
-| k8s/secrets/sa-metrics | sa-name      | Storage account name |
-| k8s/secrets/sa-metrics | sa-key       | Storage account key  |
-| k8s/secrets/sso        | issuerurl    | https://login.microsoftonline.com/\<tenan-id\>/v2.0 |
-| k8s/secrets/sso        | clientid     | The Id of the app in AzureAD |
-| k8s/secrets/sso        | clientsecret | A secret from the app in AzureAD |
-| k8s/secrets/sso        | jwtsecret    | A secret random secret |
-| k8s/secrets/minio      | accesskey    | An access key for minio |
-| k8s/secrets/minio      | secretkey    | An secret key for minio |
-| k8s/secrets/argocd     | adminUsername| "admin" |
-| k8s/secrets/argocd     | adminPassword| The non becrypted password from above |
-| k8s/secrets/github-ssh | github       | The private key for github repo |
-| k8s/secrets/github-ssh | github.pub   | The public key for github repo |
+Even though this is a enviroment setup - there is sadly still some manual setup.
 
 ### Minio setup for argocd
 
@@ -202,22 +245,6 @@ use the output to log into the web-ui
 5. give it the name `argo-artifacts`
 
 That should be all that is needed for the minio setup for argo-workflows.
-
-# Testing using kind
-
-Create a kubernetes cluster using kind.
-
-    kind create cluster --config ./test/kind.yaml
-
-Install the nidhogg chart, which will bootstrap the rest of the process
-
-    helm install --create-namespace -n yggdrasil nidhogg ./nidhogg
-
-To see the argo, open the browser to [argo web gui](https://localhost:30080).
-
-To remove the cluster after test use kind delete
-
-    kind delete cluster
 
 # Known issues
 | Issue | optional |
