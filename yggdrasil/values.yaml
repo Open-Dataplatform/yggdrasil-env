@@ -10,7 +10,7 @@ ingress:
   host: <host>
   loadBalancerIP: <ip>
   LoadBalancerResoureGroup: <rg>
-  certmanagerissuer:  <cluster-issuer>
+  certmanagerissuer: <cluster-issuer>
   # className: ingress-traefik
 
 applications:
@@ -41,9 +41,9 @@ applications:
   osiris-egress: true
 
   # Adapters
+  adapters-secrets: true
   a-ikontrol: true
 
   # Transformations
-  t-i2et-sf6: true
   transformations-secrets: true
-
+  t-i2et-sf6: true

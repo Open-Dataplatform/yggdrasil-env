@@ -3,7 +3,7 @@
 # Only Used for the CT Lint Stage
 remote: origin
 target-branch: main
-chart-dirs:
+charts:
   - yggdrasil
 chart-repos:
   - olympus=https://open-olympus-project.github.io/repo-helm/

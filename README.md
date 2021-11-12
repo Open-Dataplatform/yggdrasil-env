@@ -22,6 +22,7 @@
 - [Installing chart](#installing-chart)
   * [Manual setup](#manual-setup)
     + [Minio setup for argocd](#minio-setup-for-argocd)
+- [linting](#linting)
 - [Known issues](#known-issues)
 
 # Yggdrasil
@@ -208,7 +209,35 @@ hard:
   limits.memory: 40Gi
 ```
 
-Example of these can also be found throughout the yggdrasil/services folder.
+The last thing you need to do, after you've added an application to yggdrasil via the `config.yaml`, is to go to the [values.yaml](yggdrasil/values.yaml) and under the right "header" comment add the name of the app and the enabled status.
+
+The "headers" corresponds the the first folder in the applications folder that your app belongs to.
+So if you're adding another folder to that applications folder you would then also add a new "header" to the [values.yaml](yggdrasil/values.yaml) file.
+
+f.eks: if you're adding a transformation you would add you appname under `# Transformations` follow by the desired state of the app.
+```
+...
+applications:
+  ...
+  # Data catalog
+  datacatalog-secrets: true
+  datacatalog-frontend: true
+  datacatalog-backend: true
+
+  # Osiris
+  osiris-secrets: true
+  osiris-ingress: true
+  osiris-egress: true
+
+  # Adapters
+  adapters-secrets: true
+  a-ikontrol: true
+
+  # Transformations
+  transformations-secrets: true
+  t-i2et-sf6: true
+...
+```
 
 A PR will then need to be approved by the cluster development team, before it is merged into Yggdrasil. When this is merged, ArgoCD will automatically deploy the application onto the cluster.
 When the deployment is done, ArgoCD will poll the environment repository every 3 minutes, to check for changes to the application.
@@ -245,6 +274,19 @@ use the output to log into the web-ui
 5. give it the name `argo-artifacts`
 
 That should be all that is needed for the minio setup for argo-workflows.
+
+# linting
+It is always a good idear to lint a chart before you push it - this will also be done on pull request - but if you want to see if you have made any mistakes before you push, I will give you some guids to how you can run linting of you so desire.
+
+
+1. we need two tools<br>
+<tb> - [chart-testing](https://github.com/helm/chart-testing#installation)<br>
+<tb> - [yamllint](https://github.com/adrienverge/yamllint#installation)
+
+2. Then make sure you're standing in the yggdrasil-env folder and run: <br>
+`ct lint --config ./.github/configs/ct-lint.yaml --lint-conf ./.github/configs/lintconf.yaml`
+
+This will performe linting on the chart and make sure we're consistent with our yaml.
 
 # Known issues
 | Issue | optional |
