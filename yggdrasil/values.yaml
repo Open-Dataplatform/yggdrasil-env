@@ -46,25 +46,25 @@ applications:
 
   # Transformations
   transformations-secrets: true
-  datahub-bi-hydro: true
-  datahub-bi-own-consumption: true
-  dmi-weather: true
-  i2et-gtms-alloc-bi: true
-  i2et-gtms-balance-system-bi: true
-  i2et-gtms-biocertificate-bi: true
-  i2et-gtms-data-h-bi: true
-  i2et-gtms-invoice-lines-bi: true
-  i2et-gtms-nom-bi: true
-  i2et-nordpool: true
-  i2et-nordpool-special-regulation: true
-  i2et-sf6: true
-  ikontrol: true
-  jao-monthly: true
-  jao-yearly: true
-  jao2eds: true
-  neptun-1d: true
-  neptun-1h: true
-  neptun-3m: true
-  neptun-masterdata: true
-  oilcable-leakdetection: true
-  svk-primary-regulation: true
+  t-datahub-bi-hydro: true
+  t-datahub-bi-own-consumption: true
+  t-dmi-weather: true
+  t-i2et-gtms-alloc-bi: true
+  t-i2et-gtms-balance-system-bi: true
+  t-i2et-gtms-biocertificate-bi: true
+  t-i2et-gtms-data-h-bi: true
+  t-i2et-gtms-invoice-lines-bi: true
+  t-i2et-gtms-nom-bi: true
+  t-i2et-nordpool: true
+  t-i2et-nordpool-special-regulation: true
+  t-i2et-sf6: true
+  t-ikontrol: true
+  t-jao-monthly: true
+  t-jao-yearly: true
+  t-jao2eds: true
+  t-neptun-1d: true
+  t-neptun-1h: true
+  t-neptun-3m: true
+  t-neptun-masterdata: true
+  t-oilcable-leakdetection: true
+  t-svk-primary-regulation: true
