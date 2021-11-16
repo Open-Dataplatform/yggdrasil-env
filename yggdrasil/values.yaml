@@ -42,7 +42,7 @@ applications:
 
   # Adapters
   adapters-secrets: true
-  ikontrol: true
+  a-ikontrol: true
 
   # Transformations
   transformations-secrets: true
