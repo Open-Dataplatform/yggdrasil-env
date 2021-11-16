@@ -66,7 +66,7 @@ cron:
 
 secrets:
   # Name of the secret needed for the app to run
-  secretName: sp-dp-nordpoolspecial-{{ .Values.nameSuffix }}
+  secretName: sp-dp-nordpoolspecial-{{ .Values.nameSuffix | substr 0 1 }}
 
   # OBS THIS IS OVERRIDEN BY YGGDRASIL
   # The server to get the secret from
@@ -83,6 +83,10 @@ secrets:
       tenant_id = {{`{{ .tenant_id | toString }}`}}
       client_id = {{`{{ .client_id | toString }}`}}
       client_secret = {{`{{ .secret | toString }}`}}
+      ocp_apim_subscription_key = {{`{{ .ocp_apim_subscription_key | toString }}`}}
+      password = {{`{{ .password | toString }}`}}
+      token = {{`{{ .token | toString }}`}}
+      username = {{`{{ .username | toString }}`}}
 
 # Config take the content a builds files from the and adds them in the pod under /etc/osiris/
 configFiles:

@@ -66,7 +66,7 @@ cron:
 
 secrets:
   # Name of the secret needed for the app to run
-  secretName: osiris-transform-ingress2event-time-jao
+  secretName: sp-dp-jao-t
 
   # OBS THIS IS OVERRIDEN BY YGGDRASIL
   # The server to get the secret from
