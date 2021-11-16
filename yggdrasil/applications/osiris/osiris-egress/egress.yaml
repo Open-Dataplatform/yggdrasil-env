@@ -46,7 +46,7 @@ config:
     root_path = /
 
     [Cors]
-    origins = https://dataplatform-test.energinet.dk,http://localhost:4200
+    origins = https://dataplatform-{{ .Values.nameSuffix }}.energinet.dk,http://localhost:4200
     methods = POST,GET
     headers = *
 
@@ -60,6 +60,9 @@ config:
     [Jaeger Agent]
     reporting_host = localhost
     reporting_port = localhost
+
+    [Server]
+    maximum_memory_per_request = 5000000000
 
     [JAO]
     yearly_guid = 2d20ccdc-d9f3-4a99-a7a9-08d91a00b8e7
