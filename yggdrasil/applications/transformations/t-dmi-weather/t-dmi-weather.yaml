@@ -80,8 +80,8 @@ secrets:
   secretTemplate:
     credentials.ini: |
       [Authorization]
-      tenant_id = {{`{{ .tenant_Id | toString }}`}}
-      client_id = {{`{{ .client_Id | toString }}`}}
+      tenant_id = {{`{{ .tenant_id | toString }}`}}
+      client_id = {{`{{ .client_id | toString }}`}}
       client_secret = {{`{{ .secret | toString }}`}}
 
 # Config take the content a builds files from the and adds them in the pod under /etc/osiris/
