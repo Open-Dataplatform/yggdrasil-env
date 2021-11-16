@@ -1,5 +1,5 @@
 prometheus-pushgateway:
-  enabled: false
+  enabled: true
 
   fullnameOverride: "prometheus-aggregated-gateway"
 
@@ -16,16 +16,16 @@ prometheus-pushgateway:
 prometheus:
   serviceAccounts:
     pushgateway:
-      create: false
+      create: true
 
   pushgateway:
-    enabled: false
+    enabled: true
 
   server:
     ingress:
       enabled: false
-    # nodeSelector:
-    #   agentpool: monitoring
+    nodeSelector:
+      agentpool: monitoring
 
     extraFlags:
     - web.enable-lifecycle
