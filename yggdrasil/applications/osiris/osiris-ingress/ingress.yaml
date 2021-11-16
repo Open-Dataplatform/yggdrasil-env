@@ -11,8 +11,9 @@ deployment:
 
   imagePullSecrets:
     - name: image-pull-sec
+
   image:
-    repository: serviceacrps.azurecr.io/osiris-egress-api
+    repository: serviceacrps.azurecr.io/osiris-ingress-api
     tag: {{ include "helper.image-tag-finder" (dict "context" . "name" "osiris-ingress" ) }}
 
 service:
