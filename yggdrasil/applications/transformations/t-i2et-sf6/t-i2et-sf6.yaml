@@ -5,7 +5,7 @@ global:
   # * something else
   type: transformation
   # The name of the application that should be running (Has to be DNS compliant)
-  name: i2et-sf6
+  name: t-i2et-sf6
   # OBS THIS IS OVERRIDEN BY YGGDRASIL
   # The environment the the app will run in
   environment: {{ .Values.nameSuffix }}
@@ -16,7 +16,7 @@ workflowTemplate:
     # The image repo
     repository: service-dp.westeurope.cloudapp.azure.com/transform-ingress2event-time/transform-ingress2event-time
     # The image tag
-    tag: 463dcf0
+    tag: {{ include "helper.image-tag-finder" (dict "context" . "name" "transform-ingress2event-time" ) }}
     # The pullPolicy
     # * If not present - If the image is not cached on the device
     # * Always         - Will always try to fetch the newest image
@@ -55,7 +55,7 @@ jaeger:
 # Settings for the cron-workflow
 cron:
   # The schedule determins when the workflow will run
-  schedule: "0 * * * *"
+  schedule: "0/15 * * * *"
   # Concurrency policy determines what to do if multiple Workflows are scheduled at the same time.
   # Available options:
   # * Allow: allow all
@@ -102,21 +102,21 @@ configFiles:
     [Prometheus]
     hostname = tooling-prometheus-{{ .Values.nameSuffix }}-pushgateway.monitoring.svc:9091
     environment = {{ .Values.nameSuffix }}
-    name = i2et-sf6
+    name = t-i2et-sf6
     [Jaeger Agent]
     reporting_host = localhost
     reporting_port = localhost
-    name = i2et-sf6
+    name = t-i2et-sf6
 
     [Datasets]
-    source = <source_guid>
-    destination = <destination_guid>
-    date_format = "%%Y-%%m-%%dT%%H:%%M:%%S.%%f"
+    source = {{ include "helper.guid-finder" (dict "context" . "name" "SF6_GAS_monitoring_data") }}
+    destination = {{ include "helper.guid-finder" (dict "context" . "name" "SF6_GAS_monitoring_data_Aggregated") }}
+    date_format = %%Y-%%m-%%dT%%H:%%M:%%S.%%f
     date_key_name = datetime
     # Types: NONE, YEAR, MONTH, DAY, HOUR, MINUTE
-    time_resolution = DAY
+    time_resolution = YEAR
     [Pipeline]
-    max_files = 3
+    max_files = 20
 
   log.conf: |
     [loggers]
