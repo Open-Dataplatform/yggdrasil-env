@@ -1,10 +1,10 @@
 appName: osiris-ingress-{{ .Values.nameSuffix }}
-
 deployment:
   annotations: {}
     # sidecar.jaegertracing.io/inject: "true"
-  replicas: 1
+
   revisionHistoryLimit: 5
+  replicas: 1
 
   nodeSelector:
     agentpool: worker
@@ -16,13 +16,23 @@ deployment:
     repository: serviceacrps.azurecr.io/osiris-ingress-api
     tag: {{ include "helper.image-tag-finder" (dict "context" . "name" "osiris-ingress" ) }}
 
+  livenessProbe:
+    path: /
+    initialDelaySeconds: 15
+    timeoutSeconds: 2
+    periodSeconds: 60
+  readinessProbe:
+    path: /
+    initialDelaySeconds: 15
+    timeoutSeconds: 2
+    periodSeconds: 30
+
 service:
   type: ClusterIP
   annotations:
    prometheus.io/scrape: "true"
    # prometheus.io/path: /metrics
-   # prometheus.io/port: 9102
-
+   prometheus.io/port: "80"
 
 ingress:
   enabled: false
