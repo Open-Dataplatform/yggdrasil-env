@@ -17,7 +17,7 @@ workflowTemplate:
     # The image repo
     repository: service-dp.westeurope.cloudapp.azure.com/ingress-adapter-ikontrol/ingress-adapter-ikontrol
     # The image tag
-    tag: 463dcf0
+    tag: {{ include "helper.image-tag-finder" (dict "context" . "name" "ingress-adapter-ikontrol" ) }}
     # The pullPolicy
     # * If not present - If the image is not cached on the device
     # * Always         - Will always try to fetch the newest image

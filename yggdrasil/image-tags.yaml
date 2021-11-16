@@ -1,3 +1,35 @@
+# Osiris
+osiris-ingress:
+  test: "latest-test"
+  prod: "latest-main"
+
+osiris-egress:
+  test: "latest-test"
+  prod: "latest-main"
+
+# Datacatalog
+datacatalog-backend:
+  test: "latest-test"
+  prod: "latest-main"
+
+datacatalog-backend-migration:
+  test: "latest-test"
+  prod: "latest-main"
+
+datacatalog-backend-drm:
+  test: "latest-test"
+  prod: "latest-main"
+
+datacatalog-frontend:
+  test: "latest-test"
+  prod: "latest-main"
+
+# Adapters
+ingress-adapter-ikontrol:
+  test: "latest-test"
+  prod: "latest-main"
+
+# Transformations
 transform-ingress2event-time:
   test: "latest-test"
   prod: "0a37dca"

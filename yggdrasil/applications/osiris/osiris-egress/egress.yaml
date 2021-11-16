@@ -14,7 +14,7 @@ deployment:
 
   image:
     repository: serviceacrps.azurecr.io/osiris-egress-api
-    tag: latest-test
+    tag: {{ include "helper.image-tag-finder" (dict "context" . "name" "osiris-egress" ) }}
 
   livenessProbe:
     path: /

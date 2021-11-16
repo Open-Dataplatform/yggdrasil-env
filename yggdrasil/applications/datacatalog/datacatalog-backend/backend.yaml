@@ -10,7 +10,7 @@ apiDeployment:
   #   agentpool: worker
   image:
     repository: serviceacrps.azurecr.io/datacatalog-backend
-    tag: 1fae419
+    tag: {{ include "helper.image-tag-finder" (dict "context" . "name" "datacatalog-backend" ) }}
   env:
     "ASPNETCORE_ENVIRONMENT": "{{ .Values.nameSuffix }}"
     "ContactInfo__Name": "Data Stewards"
@@ -34,7 +34,7 @@ drmDeployment:
     agentpool: worker
   image:
     repository: serviceacrps.azurecr.io/datacatalog-backend-drm
-    tag: 1fae419
+    tag: {{ include "helper.image-tag-finder" (dict "context" . "name" "datacatalog-backend-drm" ) }}
   env:
     "ASPNETCORE_ENVIRONMENT": "{{ .Values.nameSuffix }}"
 
@@ -55,7 +55,7 @@ job:
     repository: serviceacrps.azurecr.io/datacatalog-backend-migration
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: 1fae419
+    tag: {{ include "helper.image-tag-finder" (dict "context" . "name" "datacatalog-backend-migration" ) }}
 
   env:
     "ASPNETCORE_ENVIRONMENT": "{{ .Values.nameSuffix }}"
