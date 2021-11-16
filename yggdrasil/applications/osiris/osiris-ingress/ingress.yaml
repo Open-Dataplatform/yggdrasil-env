@@ -9,11 +9,11 @@ deployment:
   nodeSelector:
     agentpool: worker
 
-  imagePullSecrets: []
-    # - name: image-pull-sec
+  imagePullSecrets:
+    - name: image-pull-sec
   image:
-    repository: service-dp.westeurope.cloudapp.azure.com/osiris-ingress-api/osiris-ingress-api
-    tag: 0dde000
+    repository: serviceacrps.azurecr.io/osiris-egress-api
+    tag: latest-test
 
 service:
   type: ClusterIP

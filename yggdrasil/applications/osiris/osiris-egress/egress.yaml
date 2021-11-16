@@ -9,12 +9,12 @@ deployment:
   nodeSelector:
     agentpool: worker
 
-  imagePullSecrets: []
-    # - name: image-pull-sec
+  imagePullSecrets:
+    - name: image-pull-sec
 
   image:
-    repository: service-dp.westeurope.cloudapp.azure.com/osiris-egress-api/osiris-egress-api
-    tag: 6a0c7e7
+    repository: serviceacrps.azurecr.io/osiris-egress-api
+    tag: latest-test
 
   livenessProbe:
     path: /
