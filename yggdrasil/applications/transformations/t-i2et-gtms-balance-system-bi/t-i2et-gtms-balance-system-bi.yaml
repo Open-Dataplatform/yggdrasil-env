@@ -5,7 +5,7 @@ global:
   # * something else
   type: transformation
   # The name of the application that should be running (Has to be DNS compliant)
-  name: t-i2et-gtms-balance-system-bi
+  name: i2et-gtms-balance-system-bi
   # OBS THIS IS OVERRIDEN BY YGGDRASIL
   # The environment the the app will run in
   environment: {{ .Values.nameSuffix }}

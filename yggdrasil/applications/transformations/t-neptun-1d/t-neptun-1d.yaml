@@ -5,7 +5,7 @@ global:
   # * something else
   type: transformation
   # The name of the application that should be running (Has to be DNS compliant)
-  name: t-neptun-1d
+  name: neptun-1d
   # OBS THIS IS OVERRIDEN BY YGGDRASIL
   # The environment the the app will run in
   environment: {{ .Values.nameSuffix }}
