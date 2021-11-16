@@ -1,4 +1,4 @@
-[![Linting](https://github.com/Open-Dataplatform/yggdrasil-env/actions/workflows/linting.yaml/badge.svg)](https://github.com/Open-Dataplatform/yggdrasil-env/actions/workflows/linting.yaml)
+[![Linting](https://github.com/Open-Dataplatform/yggdrasil-env/actions/workflows/Linting.yaml/badge.svg)](https://github.com/Open-Dataplatform/yggdrasil-env/actions/workflows/Linting.yaml)
 
 <img src="docs/images/Energinet-logo.png" width="250" style="margin-bottom: 3%">
 
