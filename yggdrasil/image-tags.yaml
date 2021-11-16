@@ -1,6 +1,6 @@
 # Osiris
 osiris-ingress:
-  test: "latest-test"
+  test: "latest-main"
   prod: "latest-main"
 
 osiris-egress:
