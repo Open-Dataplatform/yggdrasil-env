@@ -55,6 +55,8 @@ jaeger:
 
 # Settings for the cron-workflow
 cron:
+  # Suspend will stop the cron workflow from running
+  suspend: true
   # The schedule determins when the workflow will run
   schedule: "7 * * * *"
   # Concurrency policy determines what to do if multiple Workflows are scheduled at the same time.
