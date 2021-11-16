@@ -1,0 +1,139 @@
+global:
+  # The type of application that's running
+  # * transformation
+  # * adapter
+  # * something else
+  type: transformation
+  # The name of the application that should be running (Has to be DNS compliant)
+  name: t-neptun-1h
+  # OBS THIS IS OVERRIDEN BY YGGDRASIL
+  # The environment the the app will run in
+  environment: {{ .Values.nameSuffix }}
+
+workflowTemplate:
+  # the image that the scheduler will atempt to run
+  image:
+    # The image repo
+    repository: service-dp.westeurope.cloudapp.azure.com/transform-neptun/transform-neptun
+    # The image tag
+    tag: {{ include "helper.image-tag-finder" (dict "context" . "name" "transform-neptun" ) }}
+    # The pullPolicy
+    # * If not present - If the image is not cached on the device
+    # * Always         - Will always try to fetch the newest image
+    # * Never          - Will not try to fetch an image - if image is not present on the machine startup fails
+    pullPolicy: Always
+
+  # The command needed to run the application code
+  command: python -m transform_neptun
+
+  # The path the config will be placed in
+  # The name of the file is also derived from this
+  configPath: /etc/osiris-conf
+
+  # The path the credentils file should be placed in
+  # The name of the file is also derived from this
+  credentialsPath: /etc/osiris-creds
+
+  # Pod GC strategy must be one of the following:
+  # * OnPodCompletion - delete pods immediately when pod is completed (including errors/failures)
+  # * OnPodSuccess - delete pods immediately when pod is successful
+  # * OnWorkflowCompletion - delete pods when workflow is completed
+  # * OnWorkflowSuccess - delete pods when workflow is successful
+  podGC: OnPodSuccess
+
+  # Parallelism limits the max total parallel pods that can execute at the same time in a workflow
+  parallelism: 1
+
+  # NodeSelector is a selector which will result in all pods of the workflow to be scheduled on the selected node(s).
+  nodeSelector:
+    agentpool: worker
+
+# determins the state of the jeager sidecar
+jaeger:
+  enabled: true
+
+# Settings for the cron-workflow
+cron:
+  # The schedule determins when the workflow will run
+  schedule: "0 * * * *"
+  # Concurrency policy determines what to do if multiple Workflows are scheduled at the same time.
+  # Available options:
+  # * Allow: allow all
+  # * Replace: remove all old before scheduling a new
+  # * Forbid: do not allow any new while there are old
+  concurrencyPolicy: "Forbid"
+
+secrets:
+  # Name of the secret needed for the app to run
+  secretName: osiris-transform-neptun
+
+  # OBS THIS IS OVERRIDEN BY YGGDRASIL
+  # The server to get the secret from
+  secretServer: {{ .Values.vaultServer }}
+
+  # The auth path that we need to authendicate against
+  mountPath: "kubernetes-{{ .Values.nameSuffix }}"
+
+  # The expected format of the secrets
+  # https://external-secrets.io/guides-templating/
+  secretTemplate:
+    credentials.ini: |
+      [Authorization]
+      tenant_id = {{`{{ .tenantId | toString }}`}}
+      client_id = {{`{{ .clientId | toString }}`}}
+      client_secret = {{`{{ .clientSecret | toString }}`}}
+
+# Config take the content a builds files from the and adds them in the pod under /etc/osiris/
+configFiles:
+  conf.ini: |
+    [Logging]
+    configuration_file = /etc/osiris-conf/log.conf
+    disable_logger_labels =
+        apache_beam.runners.portability.fn_api_runner.fn_runner
+        azure.core.pipeline.policies.http_logging_policy
+        azure.identity._internal.get_token_mixin
+        apache_beam.runners.portability.fn_api_runner.translations
+        apache_beam.runners.worker.statecache
+        apache_beam.runners.portability.fn_api_runner.worker_handlers
+
+    [Azure Storage]
+    account_url = https://dpcontentstorage{{ .Values.nameSuffix }}.dfs.core.windows.net
+    filesystem_name = datasets
+    [Prometheus]
+    hostname = tooling-prometheus-{{ .Values.nameSuffix }}-pushgateway.monitoring.svc:9091
+    environment = {{ .Values.nameSuffix }}
+    name = t-neptun-1h
+    [Jaeger Agent]
+    reporting_host = localhost
+    reporting_port = localhost
+    name = t-neptun-1h
+
+    [Datasets]
+    source = {{ include "helper.guid-finder" (dict "context" . "name" "Neptun_1H") }}
+    destination = {{ include "helper.guid-finder" (dict "context" . "name" "Neptun_1H_validated") }}
+    time_resolution = DAY
+    [Pipeline]
+    max_files = 6
+
+  log.conf: |
+    [loggers]
+    keys=root
+    [handlers]
+    keys=consoleHandler,fileHandler
+    [formatters]
+    keys=fileFormatter,consoleFormatter
+    [logger_root]
+    level=WARNING
+    handlers=consoleHandler
+    [handler_consoleHandler]
+    class=StreamHandler
+    formatter=consoleFormatter
+    args=(sys.stdout,)
+    [handler_fileHandler]
+    class=FileHandler
+    formatter=fileFormatter
+    args=('logfile.log',)
+    [formatter_fileFormatter]
+    format=%(asctime)s - %(name)s - %(levelname)s - %(message)s
+    [formatter_consoleFormatter]
+    format=%(asctime)s - %(name)s - %(levelname)s - %(message)s
