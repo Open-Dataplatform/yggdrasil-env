@@ -310,6 +310,8 @@ It is always a good idear to lint a chart before you push it - this will also be
 
 This will performe linting on the chart and make sure we're consistent with our yaml.
 
+There is a folder called "ci" in that folder there is two files test-values.yaml and prod-values.yaml these files contains the respective nameSuffixe's and the linter will lint the chart with each of these value files, such that we're linting with both test and production values.
+
 # Known issues
 | Issue | optional |
 |-------|-------------|
