@@ -1,7 +1,7 @@
 prometheus-pushgateway:
   enabled: true
 
-  fullnameOverride: "prometheus-aggregated-gateway"
+  fullnameOverride: "prometheus-{{ .Values.nameSuffix }}-aggregated-gateway"
 
   image:
     repository: weaveworks/prom-aggregation-gateway
