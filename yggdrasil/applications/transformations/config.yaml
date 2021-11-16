@@ -18,55 +18,55 @@ apps:
   - name: i2et-gtms-alloc-bi
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "i2et-gtms-alloc-bi.yaml"
   - name: i2et-gtms-balance-system-bi
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "i2et-gtms-balance-system-bi.yaml"
   - name: i2et-gtms-biocertificate-bi
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "i2et-gtms-biocertificate-bi.yaml"
   - name: i2et-gtms-data-h-bi
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "i2et-gtms-data-h-bi.yaml"
   - name: i2et-gtms-invoice-lines-bi
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "i2et-gtms-invoice-lines-bi.yaml"
   - name: i2et-gtms-nom-bi
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "i2et-gtms-nom-bi.yaml"
   - name: i2et-nordpool
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "i2et-nordpool.yaml"
   - name: i2et-nordpool-special-regulation
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "i2et-nordpool-special-regulation.yaml"
   - name: i2et-sf6
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "i2et-sf6.yaml"
 
@@ -74,7 +74,7 @@ apps:
   - name: dmi-weather
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "dmi-weather.yaml"
 
@@ -82,19 +82,19 @@ apps:
   - name: jao-monthly
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "jao-monthly.yaml"
   - name: jao-yearly
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "jao-yearly.yaml"
   - name: jao2eds
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "jao2eds.yaml"
 
@@ -102,25 +102,25 @@ apps:
   - name: neptun-1d
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "neptun-1d.yaml"
   - name: neptun-1h
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "neptun-1h.yaml"
   - name: neptun-3m
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "neptun-3m.yaml"
   - name: neptun-masterdata
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "neptun-masterdata.yaml"
 
@@ -128,7 +128,7 @@ apps:
   - name: ikontrol
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "ikontrol.yaml"
 
@@ -136,7 +136,7 @@ apps:
   - name: oilcable-leakdetection
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "oilcable-leakdetection.yaml"
 
@@ -144,13 +144,13 @@ apps:
   - name: datahub-bi-hydro
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "datahub-bi-hydro.yaml"
   - name: datahub-bi-own-consumption
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "datahub-bi-own-consumption.yaml"
 
@@ -158,6 +158,6 @@ apps:
   - name: svk-primary-regulation
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "svk-primary-regulation.yaml"
