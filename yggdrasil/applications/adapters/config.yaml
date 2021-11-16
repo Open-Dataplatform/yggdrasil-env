@@ -13,9 +13,9 @@ apps:
       targetRevision: 0.1.3
       chart: "lethe"
       valuesFile: "lethe.yaml"
-  - name: ikontrol
+  - name: a-ikontrol
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
       targetRevision: 0.1.x
       chart: "osiris-scheduler"
-      valuesFile: "ikontrol.yaml"
+      valuesFile: "a-ikontrol.yaml"
