@@ -1,0 +1,39 @@
+transform-ingress2event-time:
+  test: "latest-test"
+  prod: "0a37dca"
+
+transform-datahub-bi:
+  test: "latest-test"
+  prod: "b7128e1"
+
+transform-dmi-weather:
+  test: "latest-test"
+  prod: "bba83b8"
+
+transform-jao:
+  test: "latest-test"
+  prod: "83d91d0"
+
+transform-neptun:
+  test: "latest-test"
+  prod: "f3b0596"
+
+transform-neptun-masterdata:
+  test: "latest-test"
+  prod: "d4a8b21"
+
+transform-ikontrol:
+  test: "latest-test"
+  prod: "8270046"
+
+transform-oilcable-leakdetection:
+  test: "latest-test"
+  prod: "6440573"
+
+transform-jao2eds:
+  test: "latest"
+  prod: "5f75fef"
+
+transform-svk-primary-regulation:
+  test: "latest-test"
+  prod: "7833a0b"
