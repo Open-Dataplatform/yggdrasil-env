@@ -5,6 +5,7 @@ global:
   # * something else
   type: transformation
   # The name of the application that should be running (Has to be DNS compliant)
+  # This name should not include the "t-" infront since that is automatically added
   name: i2et-gtms-data-h-bi
   # OBS THIS IS OVERRIDEN BY YGGDRASIL
   # The environment the the app will run in
