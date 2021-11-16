@@ -100,7 +100,7 @@ configFiles:
     account_url = https://dpcontentstorage{{ .Values.nameSuffix }}.dfs.core.windows.net
     filesystem_name = datasets
     [Prometheus]
-    hostname = tooling-prometheus-{{ .Values.nameSuffix }}-pushgateway.monitoring.svc:9091
+    hostname = prometheus-{{ .Values.nameSuffix }}-aggregated-gateway.monitoring.svc:9091
     environment = {{ .Values.nameSuffix }}
     name = t-i2et-gtms-alloc-bi
     [Jaeger Agent]
