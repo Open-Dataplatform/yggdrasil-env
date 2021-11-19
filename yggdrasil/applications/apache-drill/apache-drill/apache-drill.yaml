@@ -14,7 +14,10 @@ drill:
   # Drill image with tag
   image: serviceacrps.azurecr.io/apache-drill:0.1.1
   # Drill image pull policy
-  imagePullPolicy: Never
+  # * IfNotPresent - If the image is not cached on the device
+  # * Always         - Will always try to fetch the newest image
+  # * Never          - Will not try to fetch an image - if image is not present on the machine startup fails
+  imagePullPolicy: IfNotPresent
   # Drill's HTTP port
   httpPort: 8047
   # User Server port. The Bit Server Port and Data Server ports are +1 and +2
@@ -120,9 +123,12 @@ zookeeper:
   imagePullSecrets:
     - name: image-pull-sec
   # ZooKeeper image with tag
-  image: zookeeper:latest
+  image: serviceacrps.azurecr.io/zookeeper:0.1.1
   # ZooKeeper image with tag
-  imagePullPolicy: Never
+  # * IfNotPresent - If the image is not cached on the device
+  # * Always         - Will always try to fetch the newest image
+  # * Never          - Will not try to fetch an image - if image is not present on the machine startup fails
+  imagePullPolicy: IfNotPresent
 
 lethe:
   enabled: false

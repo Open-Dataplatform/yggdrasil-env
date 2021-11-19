@@ -19,7 +19,7 @@ workflowTemplate:
     # The image tag
     tag: {{ include "helper.image-tag-finder" (dict "context" . "name" "transform-ingress2event-time" ) }}
     # The pullPolicy
-    # * If not present - If the image is not cached on the device
+    # * IfNotPresent - If the image is not cached on the device
     # * Always         - Will always try to fetch the newest image
     # * Never          - Will not try to fetch an image - if image is not present on the machine startup fails
     pullPolicy: Always
