@@ -8,8 +8,11 @@ drill:
   memory: 5Gi
   # Total CPU for each Drill pod
   cpu: 4000m
+    # Drill image pull secrets
+  imagePullSecrets:
+    - name: image-pull-sec
   # Drill image with tag
-  image: apache-drill:latest
+  image: serviceacrps.azurecr.io/apache-drill:0.1.1
   # Drill image pull policy
   imagePullPolicy: Never
   # Drill's HTTP port
@@ -88,12 +91,12 @@ drill:
     # Target CPU Utilization Percentage
     cpuThreshold: 75
   # The rules for selecting a node to run on
-  nodeSelectorTerms: []
-    # - matchExpressions:
-    #   - key: agentpool
-    #     operator: In
-    #     values:
-    #     - worker
+  nodeSelectorTerms:
+    - matchExpressions:
+      - key: agentpool
+        operator: In
+        values:
+        - worker
 
   volumeMounts: []
     # - mountPath: /opt/drill/conf/storage-plugins-override.conf
@@ -113,6 +116,9 @@ zookeeper:
   memory: 2Gi
   # Total CPU for each ZooKeeper pod
   cpu: 500m
+  # Drill image pull secrets
+  imagePullSecrets:
+    - name: image-pull-sec
   # ZooKeeper image with tag
   image: zookeeper:latest
   # ZooKeeper image with tag

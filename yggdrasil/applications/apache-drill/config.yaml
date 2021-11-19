@@ -6,6 +6,12 @@ labels:
   app-group: applications
 
 apps:
+  - name: apache-drill-secrets
+    source:
+      repoURL: "https://open-olympus-project.github.io/repo-helm"
+      targetRevision: 0.1.3
+      chart: "lethe"
+      valuesFile: "lethe.yaml"
   - name: apache-drill
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
