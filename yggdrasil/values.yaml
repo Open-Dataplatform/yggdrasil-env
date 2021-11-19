@@ -30,6 +30,9 @@ applications:
   traefik-forward-auth: true
   vault: true
 
+  # Apache-drill
+  apache-drill: true
+
   # Data catalog
   datacatalog-secrets: true
   datacatalog-frontend: true
