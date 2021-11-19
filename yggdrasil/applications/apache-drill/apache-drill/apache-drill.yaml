@@ -123,7 +123,7 @@ zookeeper:
   imagePullSecrets:
     - name: image-pull-sec
   # ZooKeeper image with tag
-  image: serviceacrps.azurecr.io/zookeeper:0.1.1
+  image: agirish/zookeeper:3.6.0
   # ZooKeeper image with tag
   # * IfNotPresent - If the image is not cached on the device
   # * Always         - Will always try to fetch the newest image
