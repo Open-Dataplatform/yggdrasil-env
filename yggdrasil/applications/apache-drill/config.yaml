@@ -1,0 +1,15 @@
+name: apache-drill
+clusterService: false
+namespace: argo-events
+description: Argo events setup
+labels:
+  app-type: apache-drill
+  app-group: applications
+
+apps:
+  - name: apache-drill
+    source:
+      repoURL: "https://open-dataplatform.github.io/osiris-helm/"
+      targetRevision: 0.1.0
+      chart: drill
+      valuesFile: "apache-drill.yaml"
