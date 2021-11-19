@@ -1,7 +1,6 @@
 name: apache-drill
-clusterService: false
-namespace: argo-events
-description: Argo events setup
+namespace: apache-drill
+description: Apache-drill instance
 labels:
   app-type: apache-drill
   app-group: applications
