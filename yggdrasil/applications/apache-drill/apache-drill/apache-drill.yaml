@@ -172,12 +172,12 @@ lethe:
               # A required field containing the Vault Role to assume.
               role: "k8s-secrets"
   secrets:
-    - name: prometheus-bucket
+    - name: drill-storage-override-conf
       secretStore:
         backend: vault-backend
         kind: SecretStore
       target:
-        name: prometheus-bucket
+        name: drill-storage-override-conf
         template:
           templateFrom:
             - configMap:
