@@ -170,7 +170,7 @@ lethe:
               # Path where the Kubernetes authentication backend is mounted in Vault
               mountPath: "{{ template "helper.name" (dict "context" . "name" "kubernetes") }}"
               # A required field containing the Vault Role to assume.
-              role: "k8s-secrets"
+              role: "apache-drill-reader"
   secrets:
     - name: drill-storage-override-conf
       secretStore:
