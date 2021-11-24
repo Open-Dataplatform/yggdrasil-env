@@ -130,9 +130,6 @@ zookeeper:
   # * Never          - Will not try to fetch an image - if image is not present on the machine startup fails
   imagePullPolicy: IfNotPresent
 
-lethe:
-  enabled: false
-
 janus:
   enabled: true
   host: drill.{{ .Values.ingress.host }}
@@ -155,3 +152,37 @@ janus:
               namespace: networking
       certificate:
         enabled: true
+
+lethe:
+  enabled: true
+  secretStores:
+    - name: vault-backend
+      providers:
+        vault:
+          server: "{{ .Values.vaultServer }}"
+          path: "apache-drill"
+          version: "v2"
+          auth:
+            # Authenticate against Vault using a Kubernetes ServiceAccount
+            # token stored in a Secret.
+            # https://www.vaultproject.io/docs/auth/kubernetes
+            kubernetes:
+              # Path where the Kubernetes authentication backend is mounted in Vault
+              mountPath: "{{ template "helper.name" (dict "context" . "name" "kubernetes") }}"
+              # A required field containing the Vault Role to assume.
+              role: "k8s-secrets"
+  secrets:
+    - name: prometheus-bucket
+      secretStore:
+        backend: vault-backend
+        kind: SecretStore
+      target:
+        name: prometheus-bucket
+        template:
+          templateFrom:
+            - configMap:
+              name: drill-es-tpl-cm
+              items:
+                - key: storage-plugins-override.conf
+      dataFrom:
+        - key: creds
