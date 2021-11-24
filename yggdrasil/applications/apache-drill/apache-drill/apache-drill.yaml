@@ -4,8 +4,10 @@ drill:
   id: drillcluster1
   # Number of Drill Pods which are launched in parallel and join to form a Drill Cluster
   count: 2
-  # Total memory for each Drill pod
-  memory: 5Gi
+  # Total heap memory for each Drill pod
+  heapMemory: 8G
+  # Total direct memory for each Drill pod
+  directMemory: 10G
   # Total CPU for each Drill pod
   cpu: 4000m
     # Drill image pull secrets
