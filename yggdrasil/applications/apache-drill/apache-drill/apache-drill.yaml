@@ -134,4 +134,24 @@ lethe:
   enabled: false
 
 janus:
-  enabled: false
+  enabled: true
+  host: drill.{{ .Values.ingress.host }}
+  certmanagerIssuer:
+    name: {{ .Values.ingress.certmanagerissuer | quote }}
+    kind: ClusterIssuer
+
+  ingressRoutes:
+    - name: apache-drill-{{ .Values.nameSuffix }}
+      entryPoints:
+        - websecure
+      routes:
+        - kind: Rule
+          match:
+          services:
+            - name: drill-service
+              port: 8047
+          middlewares:
+            - name: auth
+              namespace: networking
+      certificate:
+        enabled: true
