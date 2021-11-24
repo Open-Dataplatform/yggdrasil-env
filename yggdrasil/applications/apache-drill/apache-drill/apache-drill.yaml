@@ -181,8 +181,8 @@ lethe:
         template:
           templateFrom:
             - configMap:
-              name: drill-es-tpl-cm
-              items:
-                - key: storage-plugins-override.conf
+                name: drill-es-tpl-cm
+                items:
+                  - key: storage-plugins-override.conf
       dataFrom:
         - key: creds
