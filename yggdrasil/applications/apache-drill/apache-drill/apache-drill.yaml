@@ -101,12 +101,18 @@ drill:
         values:
         - worker
 
-  volumeMounts: []
+  volumeMounts:
+    - name: drill-config-override
+      mountPath: /opt/drill/conf/storage-plugins-override.conf
+      subPath: storage-plugins-override.conf
     # - mountPath: /opt/drill/conf/storage-plugins-override.conf
     #   name: drill-config-cm
     #   subPath: storage-plugins-override.conf
 
-  volumes: []
+  volumes:
+    - name: drill-config-override
+      secret:
+        secretName: drill-storage-override-conf
     # - name: drill-config-cm
     #   configMap:
     #     name: drill-config-cm
