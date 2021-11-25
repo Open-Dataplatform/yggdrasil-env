@@ -19,3 +19,33 @@ apps:
       targetRevision: 0.1.x
       chart: "osiris-scheduler"
       valuesFile: "a-ikontrol.yaml"
+  - name: a-jao-monthly
+    source:
+      repoURL: "https://open-dataplatform.github.io/osiris-helm/"
+      targetRevision: 0.1.x
+      chart: "osiris-scheduler"
+      valuesFile: "a-jao-monthly.yaml"
+  - name: a-jao-yearly
+    source:
+      repoURL: "https://open-dataplatform.github.io/osiris-helm/"
+      targetRevision: 0.1.x
+      chart: "osiris-scheduler"
+      valuesFile: "a-jao-yearly.yaml"
+  - name: a-nationalbanken
+    source:
+      repoURL: "https://open-dataplatform.github.io/osiris-helm/"
+      targetRevision: 0.1.x
+      chart: "osiris-scheduler"
+      valuesFile: "a-nationalbanken.yaml"
+  - name: a-nordpool-special-regulation
+    source:
+      repoURL: "https://open-dataplatform.github.io/osiris-helm/"
+      targetRevision: 0.1.x
+      chart: "osiris-scheduler"
+      valuesFile: "a-nordpool-special-regulation.yaml"
+  - name: a-svk-primary-regulation
+    source:
+      repoURL: "https://open-dataplatform.github.io/osiris-helm/"
+      targetRevision: 0.1.x
+      chart: "osiris-scheduler"
+      valuesFile: "a-svk-primary-regulation.yaml"

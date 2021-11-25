@@ -6,7 +6,7 @@ global:
   type: adapter
   # The name of the application that should be running (Has to be DNS compliant)
   # This name should not include the "t-" infront since that is automatically added
-  name: ikontrol
+  name: jao-yearly
   # OBS THIS IS OVERRIDEN BY YGGDRASIL
   # The environment the the app will run in
   environment: {{ .Values.nameSuffix }}
@@ -15,9 +15,9 @@ workflowTemplate:
   # the image that the scheduler will atempt to run
   image:
     # The image repo
-    repository: service-dp.westeurope.cloudapp.azure.com/ingress-adapter-ikontrol/ingress-adapter-ikontrol
+    repository: service-dp.westeurope.cloudapp.azure.com/ingress-adapter-jao-yearly/ingress-adapter-jao-yearly
     # The image tag
-    tag: {{ include "helper.image-tag-finder" (dict "context" . "name" "ingress-adapter-ikontrol" ) }}
+    tag: {{ include "helper.image-tag-finder" (dict "context" . "name" "ingress-adapter-jao-yearly" ) }}
     # The pullPolicy
     # * IfNotPresent - If the image is not cached on the device
     # * Always         - Will always try to fetch the newest image
@@ -25,7 +25,7 @@ workflowTemplate:
     pullPolicy: Always
 
   # The command needed to run the application code
-  command: python -m ingress_adapter_ikontrol.adapter
+  command: python -m ingress_adapter_jao.adapter
 
   # The path the config will be placed in
   # The name of the file is also derived from this
@@ -68,7 +68,8 @@ cron:
 
 secrets:
   # Name of the secret needed for the app to run
-  secretName: sp-dp-ikontrol-{{ .Values.nameSuffix | substr 0 1}}
+  # secretName: sp-dp-datahub-bi-{{ .Values.nameSuffix | substr 0 1}}
+  secretName: sp-dp-adapter-jao-{{ .Values.nameSuffix | substr 0 1}}
 
   # OBS THIS IS OVERRIDEN BY YGGDRASIL
   # The server to get the secret from
@@ -85,6 +86,8 @@ secrets:
       tenant_id = {{`{{ .tenant_id | toString }}`}}
       client_id = {{`{{ .client_id | toString }}`}}
       client_secret = {{`{{ .secret | toString }}`}}
+      [JAO Server]
+      auth_api_key = {{`{{ .jao_api_key | toString}}`}}
 
 # Config take the content a builds files from the and adds them in the pod under /etc/osiris/
 configFiles:
@@ -105,17 +108,19 @@ configFiles:
     [Prometheus]
     hostname = prometheus-{{ .Values.nameSuffix }}-aggregated-gateway.monitoring.svc:9091
     environment = {{ .Values.nameSuffix }}
-    name = a-ikontrol
+    name = a-jao-yearly
     [Jaeger Agent]
     reporting_host = localhost
     reporting_port = localhost
-    name = a-ikontrol
+    name = a-jao-yearly
 
     [Datasets]
-    source = <source>
-    [iKontrol API]
-    api_url = <api_url>
-    api_version = <api_version>
+    source = ff29b8b4-cd84-4253-a7aa-08d91a00b8e7
+    [JAO Server]
+    server_url = https://api.jao.eu/OWSMP
+    [JAO Values]
+    default_date = 2016-01-01
+    horizon = Yearly
 
   log.conf: |
     [loggers]

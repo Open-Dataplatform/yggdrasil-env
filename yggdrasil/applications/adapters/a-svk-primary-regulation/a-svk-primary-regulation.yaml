@@ -6,7 +6,7 @@ global:
   type: adapter
   # The name of the application that should be running (Has to be DNS compliant)
   # This name should not include the "t-" infront since that is automatically added
-  name: ikontrol
+  name: svk-primary-regulation
   # OBS THIS IS OVERRIDEN BY YGGDRASIL
   # The environment the the app will run in
   environment: {{ .Values.nameSuffix }}
@@ -15,9 +15,9 @@ workflowTemplate:
   # the image that the scheduler will atempt to run
   image:
     # The image repo
-    repository: service-dp.westeurope.cloudapp.azure.com/ingress-adapter-ikontrol/ingress-adapter-ikontrol
+    repository: service-dp.westeurope.cloudapp.azure.com/ingress-svk-primary-regulation/ingress-svk-primary-regulation
     # The image tag
-    tag: {{ include "helper.image-tag-finder" (dict "context" . "name" "ingress-adapter-ikontrol" ) }}
+    tag: {{ include "helper.image-tag-finder" (dict "context" . "name" "ingress-svk-primary-regulation" ) }}
     # The pullPolicy
     # * IfNotPresent - If the image is not cached on the device
     # * Always         - Will always try to fetch the newest image
@@ -25,7 +25,7 @@ workflowTemplate:
     pullPolicy: Always
 
   # The command needed to run the application code
-  command: python -m ingress_adapter_ikontrol.adapter
+  command: python -m ingress_svk_primary_regulation.adapter
 
   # The path the config will be placed in
   # The name of the file is also derived from this
@@ -58,7 +58,7 @@ cron:
   # Suspend will stop the cron workflow from running
   suspend: true
   # The schedule determins when the workflow will run
-  schedule: "0 1 * * *"
+  schedule: "0 4 * * *"
   # Concurrency policy determines what to do if multiple Workflows are scheduled at the same time.
   # Available options:
   # * Allow: allow all
@@ -68,7 +68,8 @@ cron:
 
 secrets:
   # Name of the secret needed for the app to run
-  secretName: sp-dp-ikontrol-{{ .Values.nameSuffix | substr 0 1}}
+  # secretName: sp-dp-datahub-bi-{{ .Values.nameSuffix | substr 0 1}}
+  secretName: sp-dp-primary-regulation-{{ .Values.nameSuffix | substr 0 1}}
 
   # OBS THIS IS OVERRIDEN BY YGGDRASIL
   # The server to get the secret from
@@ -105,17 +106,14 @@ configFiles:
     [Prometheus]
     hostname = prometheus-{{ .Values.nameSuffix }}-aggregated-gateway.monitoring.svc:9091
     environment = {{ .Values.nameSuffix }}
-    name = a-ikontrol
+    name = a-svk-primary-regulation
     [Jaeger Agent]
     reporting_host = localhost
     reporting_port = localhost
-    name = a-ikontrol
+    name = a-svk-primary-regulation
 
     [Datasets]
-    source = <source>
-    [iKontrol API]
-    api_url = <api_url>
-    api_version = <api_version>
+    source = aa09478e-12c9-45ec-82af-08d9a02fd64d
 
   log.conf: |
     [loggers]
