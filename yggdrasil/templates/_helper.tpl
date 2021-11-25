@@ -16,7 +16,6 @@ Will find the image matching the env and name given
 */}}
 {{- define "helper.guid-finder" }}
 {{- $ := .context }}
-{{- $guids := $.Values.guids }}
 {{- $guids := $.Files.Get "guids.yaml" | fromYaml}}
 {{- $guidName := index $guids .name }}
 {{- $guid := index $guidName $.Values.nameSuffix }}
