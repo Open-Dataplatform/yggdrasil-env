@@ -120,6 +120,7 @@ drill:
         name: drill-cm
         items:
           - key: drill-override.conf
+            path: drill-override.conf
 
 # ZooKeeper sub-section
 zookeeper:
