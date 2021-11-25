@@ -47,6 +47,11 @@ applications:
   # Adapters
   adapters-secrets: true
   a-ikontrol: true
+  a-jao-monthly: true
+  a-jao-yearly: true
+  a-nationalbanken: true
+  a-nordpool-special-regulation: true
+  a-svk-primary-regulation: true
 
   # Transformations
   transformations-secrets: true
