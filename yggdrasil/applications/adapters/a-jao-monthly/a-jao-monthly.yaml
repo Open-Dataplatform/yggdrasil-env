@@ -15,9 +15,9 @@ workflowTemplate:
   # the image that the scheduler will atempt to run
   image:
     # The image repo
-    repository: service-dp.westeurope.cloudapp.azure.com/ingress-adapter-jao-monthly/ingress-adapter-jao-monthly
+    repository: service-dp.westeurope.cloudapp.azure.com/ingress-adapter-jao/ingress-adapter-jao
     # The image tag
-    tag: {{ include "helper.image-tag-finder" (dict "context" . "name" "ingress-adapter-jao-monthly" ) }}
+    tag: {{ include "helper.image-tag-finder" (dict "context" . "name" "ingress-adapter-jao" ) }}
     # The pullPolicy
     # * IfNotPresent - If the image is not cached on the device
     # * Always         - Will always try to fetch the newest image

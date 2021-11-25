@@ -29,6 +29,22 @@ ingress-adapter-ikontrol:
   test: "latest-test"
   prod: "latest-main"
 
+ingress-adapter-jao:
+  test: "latest-test"
+  prod: "latest-main"
+
+ingress-adapter-nationalbanken:
+  test: "c99f2ff"
+  prod: "c99f2ff"
+
+ingress-nordpool-special-regulation:
+  test: "latest-test"
+  prod: "latest-main"
+
+ingress-svk-primary-regulation:
+  test: "latest-test"
+  prod: "latest-main"
+
 # Transformations
 transform-ingress2event-time:
   test: "latest-test"
