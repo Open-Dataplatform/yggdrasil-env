@@ -115,7 +115,7 @@ configFiles:
     name = a-jao-yearly
 
     [Datasets]
-    source = ff29b8b4-cd84-4253-a7aa-08d91a00b8e7
+    source = {{ include "helper.guid-finder" (dict "context" . "name" "JAO_Yearly") }}
     [JAO Server]
     server_url = https://api.jao.eu/OWSMP
     [JAO Values]

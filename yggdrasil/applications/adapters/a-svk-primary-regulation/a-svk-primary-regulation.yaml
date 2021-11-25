@@ -113,7 +113,7 @@ configFiles:
     name = a-svk-primary-regulation
 
     [Datasets]
-    source = aa09478e-12c9-45ec-82af-08d9a02fd64d
+    source = {{ include "helper.guid-finder" (dict "context" . "name" "Swedish_and_Danish_Primary_Regulation_Ingress") }}
 
   log.conf: |
     [loggers]

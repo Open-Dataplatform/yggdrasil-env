@@ -112,7 +112,7 @@ configFiles:
     name = a-nationalbanken
 
     [Datasets]
-    guid = ed9700b3-59a1-47fd-dc29-08d945e7e910
+    guid = {{ include "helper.guid-finder" (dict "context" . "name" "Exchange_Rates_from_Danmarks_Nationalbank") }}
 
     [NB Server]
     five_days_url = https://www.nationalbanken.dk/_vti_bin/DN/DataService.svc/CurrencyRatesHistoryXML?lang=da

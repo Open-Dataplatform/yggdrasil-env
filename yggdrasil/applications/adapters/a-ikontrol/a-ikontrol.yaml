@@ -112,7 +112,7 @@ configFiles:
     name = a-ikontrol
 
     [Datasets]
-    source = <source>
+    source = {{ include "helper.guid-finder" (dict "context" . "name" "iKontrol_Data_Ingress") }}
     [iKontrol API]
     api_url = <api_url>
     api_version = <api_version>

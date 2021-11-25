@@ -119,7 +119,7 @@ configFiles:
     name = a-nordpool-special-regulation
 
     [Datasets]
-    source = 99b0a0d3-8511-4464-82b2-08d9a02fd64d
+    source = {{ include "helper.guid-finder" (dict "context" . "name" "Nordpool_Special_Regulation_Volume_Ingress") }}
 
   log.conf: |
     [loggers]
