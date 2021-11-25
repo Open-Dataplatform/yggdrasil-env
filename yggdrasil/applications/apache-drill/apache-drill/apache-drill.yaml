@@ -153,8 +153,8 @@ janus:
         - kind: Rule
           match:
           services:
-            - name: zk-service
-              port: 2181
+            - name: drill-service
+              port: 8047
           middlewares:
             - name: auth
               namespace: networking
