@@ -15,6 +15,6 @@ apps:
   - name: apache-drill
     source:
       repoURL: "https://open-dataplatform.github.io/osiris-helm/"
-      targetRevision: 0.1.12
+      targetRevision: 0.1.13
       chart: drill
       valuesFile: "apache-drill.yaml"
