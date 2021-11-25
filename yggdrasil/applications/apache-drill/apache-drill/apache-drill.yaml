@@ -14,7 +14,7 @@ drill:
   imagePullSecrets:
     - name: image-pull-sec
   # Drill image with tag
-  image: serviceacrps.azurecr.io/apache-drill:0.1.4
+  image: serviceacrps.azurecr.io/apache-drill:0.1.5
   # Drill image pull policy
   # * IfNotPresent - If the image is not cached on the device
   # * Always         - Will always try to fetch the newest image
