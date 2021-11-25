@@ -107,20 +107,20 @@ drill:
     - name: drill-config-override
       mountPath: /opt/drill/conf/storage-plugins-override.conf
       subPath: storage-plugins-override.conf
-    # - name: drill-cm
-    #   mountPath: /opt/drill/conf/drill-override.conf
-    #   subPath: drill-override.conf
+    - name: drill-cm
+      mountPath: /opt/drill/conf/drill-override.conf
+      subPath: drill-override.conf
 
   volumes:
     - name: drill-config-override
       secret:
         secretName: drill-storage-override-conf
-    # - name: drill-cm
-    #   configMap:
-    #     name: drill-cm
-    #     items:
-    #       - key: drill-override.conf
-    #         path: drill-override.conf
+    - name: drill-cm
+      configMap:
+        name: drill-cm
+        items:
+          - key: drill-override.conf
+            path: drill-override.conf
 
 # ZooKeeper sub-section
 zookeeper:
