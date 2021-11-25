@@ -161,6 +161,12 @@ janus:
           middlewares:
             - name: auth
               namespace: networking
+        - kind: Rule
+          host: zk.{{ .Values.ingress.host }}
+          match:
+          services:
+            - name: zk-service
+              port: 2181
       certificate:
         enabled: true
 
