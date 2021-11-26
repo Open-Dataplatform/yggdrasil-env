@@ -143,7 +143,7 @@ zookeeper:
 
 janus:
   enabled: true
-  host: drill.{{ .Values.ingress.host }}
+  host: zk.{{ .Values.ingress.host }}
   certmanagerIssuer:
     name: {{ .Values.ingress.certmanagerissuer | quote }}
     kind: ClusterIssuer
@@ -151,18 +151,17 @@ janus:
   ingressRoutes:
     - name: apache-drill-{{ .Values.nameSuffix }}
       entryPoints:
-        - websecure
+        - zk
       routes:
+        # - kind: Rule
+        #   match:
+        #   services:
+        #     - name: drill-service
+        #       port: 8047
+        #   middlewares:
+        #     - name: auth
+        #       namespace: networking
         - kind: Rule
-          match:
-          services:
-            - name: drill-service
-              port: 8047
-          middlewares:
-            - name: auth
-              namespace: networking
-        - kind: Rule
-          host: zk.{{ .Values.ingress.host }}
           match:
           services:
             - name: zk-service
