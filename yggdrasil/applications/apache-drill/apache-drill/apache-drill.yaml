@@ -151,7 +151,7 @@ janus:
   ingressRoutes:
     - name: apache-drill-{{ .Values.nameSuffix }}
       entryPoints:
-        - web
+        - websecure
       routes:
         - kind: Rule
           match:
