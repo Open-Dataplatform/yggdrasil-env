@@ -151,16 +151,8 @@ janus:
   ingressRoutes:
     - name: apache-drill-{{ .Values.nameSuffix }}
       entryPoints:
-        - zk
+        - web
       routes:
-        # - kind: Rule
-        #   match:
-        #   services:
-        #     - name: drill-service
-        #       port: 8047
-        #   middlewares:
-        #     - name: auth
-        #       namespace: networking
         - kind: Rule
           match:
           services:
